@@ -1,4 +1,4 @@
-import { Header } from "@/components/Home/Header/Header";
+import { Header } from "@/components/Header/Header";
 import { PALETTE } from "@/constants";
 import { Task } from "@/types/task";
 import React, { JSX, useEffect, useState } from "react";

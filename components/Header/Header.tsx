@@ -6,12 +6,18 @@ import { StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 const HeaderComponent = () => {
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <Animated.View
       entering={FadeInDown.delay(50).springify()}
       style={styles.header}
     >
-      <Text className="text-sm text-gray-500 font-medium">Tuesday, Jan 23</Text>
+      <Text className="text-sm text-gray-500 font-medium">{today}</Text>
       <View style={styles.rowBetween}>
         <View style={{ flex: 1, paddingRight: 16 }}>
           <Text className="text-xl font-bold text-gray-800">
@@ -42,7 +48,7 @@ const HeaderComponent = () => {
   );
 };
 
-export const Header = memo(HeaderComponent)
+export const Header = memo(HeaderComponent);
 
 const styles = StyleSheet.create({
   header: { paddingHorizontal: PADDING_H, paddingTop: 16, paddingBottom: 10 },
