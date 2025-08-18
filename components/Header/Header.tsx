@@ -1,9 +1,8 @@
-import { PADDING_H } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { memo } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import { Text, View } from "react-native";
+import Animated from "react-native-reanimated";
 
 const HeaderComponent = () => {
   const today = new Date().toLocaleDateString(undefined, {
@@ -13,17 +12,16 @@ const HeaderComponent = () => {
   });
 
   return (
-    <Animated.View
-      entering={FadeInDown.delay(50).springify()}
-      style={styles.header}
-    >
+    <Animated.View className="px-5 pt-4 pb-2">
       <Text className="text-sm text-gray-500 font-medium">{today}</Text>
-      <View style={styles.rowBetween}>
-        <View style={{ flex: 1, paddingRight: 16 }}>
+      <View className="flex-row items-center mt-2">
+        <View className="flex-1">
           <Text className="text-xl font-bold text-gray-800">
+            {/* TODO: Generate message with name based on time of day. */}
             Good morning, Sarah!
           </Text>
           <Text className="text-sm text-purple-600 font-medium">
+            {/* TODO: Generate pet name(s) based on data */}
             Bella & Max are counting on you 🐾
           </Text>
         </View>
@@ -49,8 +47,3 @@ const HeaderComponent = () => {
 };
 
 export const Header = memo(HeaderComponent);
-
-const styles = StyleSheet.create({
-  header: { paddingHorizontal: PADDING_H, paddingTop: 16, paddingBottom: 10 },
-  rowBetween: { flexDirection: "row", alignItems: "center", marginTop: 10 },
-});
