@@ -6,17 +6,13 @@ import { Image } from "expo-image";
 import React, { memo, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import Animated, {
-  FadeInDown
-} from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { useTaskCard } from "./useTaskCard";
 
-const TaskCardComponent = ({
-  task,
-  onDone,
-}: TaskCardProps) => {
+const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
   const swipeRef = useRef<Swipeable | null>(null);
-  const { memoizedMinutesText } = useTaskCard(task)
+  const { memoizedMinutesText } = useTaskCard(task);
+  const { avatar, title, subtitle, status } = task;
 
   return (
     <Swipeable
@@ -80,9 +76,9 @@ const TaskCardComponent = ({
       </Animated.View>
     </Swipeable>
   );
-}
+};
 
-export const TaskCard = memo(TaskCardComponent)
+export const TaskCard = memo(TaskCardComponent);
 
 const styles = StyleSheet.create({
   card: {
