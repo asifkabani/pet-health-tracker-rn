@@ -1,8 +1,10 @@
 import { Header } from "@/components/Header/Header";
+import { SegmentedTabsControl } from "@/components/SegmentedTabs/SegmentedTabs";
 import { PALETTE } from "@/constants";
 import { Task } from "@/types/task";
-import React, { JSX, useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useEffect, useState } from "react";
+import { ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 
@@ -53,7 +55,7 @@ const initialTasks: Task[] = [
   },
 ];
 
-export default function HomeScreen(): JSX.Element {
+export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   // const [selected, setSelected] = useState<TabKey>("today");
   const [completed, setCompleted] = useState<string[]>([]);
@@ -65,7 +67,7 @@ export default function HomeScreen(): JSX.Element {
   //     .forEach((t) => (c[t.status] += 1));
   //   return c;
   // }, [tasks, completed]);
-  
+
   // const pendingCount = counts.today + counts.upcoming + counts.overdue;
 
   // countdown update (every 30s)
@@ -79,29 +81,25 @@ export default function HomeScreen(): JSX.Element {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Animated.View style={styles.container} entering={FadeIn.duration(300)}>
+    <GestureHandlerRootView className="flex-1">
+      <Animated.View className="flex-1" entering={FadeIn.duration(300)}>
         <ScrollView
           contentContainerStyle={{ paddingBottom: 48 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Header */}
-          <Header />
-          {/* Segmented Tabs */}
-          {/* <SegmentedTabsControl /> */}
-          {/* Task List */}
-          {/* <TaskList
+          <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
+            <Header />
+            <SegmentedTabsControl />
+            {/* Task List */}
+            {/* <TaskList
             tasks={tasks}
             selected={selected}
             setCompleted={setCompleted}
           /> */}
-          {/* <Progress completed="" pendingCount={0} /> */}
+            {/* <Progress completed="" pendingCount={0} /> */}
+          </LinearGradient>
         </ScrollView>
       </Animated.View>
     </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: PALETTE.bg },
-});
