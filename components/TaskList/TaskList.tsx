@@ -1,15 +1,16 @@
-import { INITIAL_TASKS, TASK_LIST_CONTENT_CONTAINER_STYLE } from "@/constants";
+import { TASK_LIST_CONTENT_CONTAINER_STYLE } from "@/constants";
+import { TaskListProps } from "@/types/task";
 import { memo } from "react";
 import { FlatList } from "react-native";
 import { TaskCard } from "../TaskCard/TaskCard";
 import { TaskListEmpty } from "./TaskListEmpty";
 
 const TaskListComponent = ({
-  tasks,
+  tasks = [],
   selected,
   completed,
   setCompleted,
-}: any) => {
+}: TaskListProps) => {
   //   const visible = useMemo(
   //   () =>
   //     tasks.filter((t) => t.status === selected && !completed.includes(t.id)),
@@ -24,7 +25,7 @@ const TaskListComponent = ({
 
   return (
     <FlatList
-      data={INITIAL_TASKS}
+      data={tasks}
       keyExtractor={(task) => task.id}
       contentContainerStyle={TASK_LIST_CONTENT_CONTAINER_STYLE}
       renderItem={({ item, index }) => <TaskCard task={item} />}
