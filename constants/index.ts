@@ -10,6 +10,11 @@ export const PALETTE = {
   border: "#F0ECF8",
 };
 
+export const TASK_LIST_CONTENT_CONTAINER_STYLE = {
+  paddingHorizontal: 12,
+  gap: 4,
+};
+
 export const PADDING_H = 20;
 export const AVATAR_SIZE = 48;
 

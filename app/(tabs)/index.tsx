@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header/Header";
 import { SegmentedTabsControl } from "@/components/SegmentedTabs/SegmentedTabs";
+import { TaskList } from "@/components/TaskList/TaskList";
 import { PALETTE } from "@/constants";
 import { Task } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";
@@ -90,12 +91,11 @@ export default function HomeScreen() {
           <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
             <Header />
             <SegmentedTabsControl />
-            {/* Task List */}
-            {/* <TaskList
-            tasks={tasks}
-            selected={selected}
-            setCompleted={setCompleted}
-          /> */}
+            <TaskList
+            // tasks={tasks}
+            // selected={selected}
+            // setCompleted={setCompleted}
+            />
             {/* <Progress completed="" pendingCount={0} /> */}
           </LinearGradient>
         </ScrollView>
