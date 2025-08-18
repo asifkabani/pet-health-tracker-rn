@@ -1,3 +1,5 @@
+import { TaskStatus } from "@/types/task";
+
 export const PALETTE = {
   bg: "#FCFAFF",
   card: "#FFFFFF",
@@ -24,7 +26,7 @@ export const INITIAL_TASKS = [
     pet: "Bella",
     title: "Bella's Medication",
     subtitle: "Heart medication - Morning dose",
-    status: "overdue",
+    status: "overdue" as TaskStatus,
     dueInMinutes: -120,
     color: PALETTE.red,
     avatar:
@@ -35,7 +37,7 @@ export const INITIAL_TASKS = [
     pet: "Max",
     title: "Max's Walk",
     subtitle: "Morning walk - 30 minutes",
-    status: "today",
+    status: "today" as TaskStatus,
     dueInMinutes: 30,
     color: PALETTE.blue,
     avatar:
@@ -46,7 +48,7 @@ export const INITIAL_TASKS = [
     pet: "Bella",
     title: "Bella's Feeding",
     subtitle: "Lunch - Wet food with supplements",
-    status: "today",
+    status: "today" as TaskStatus,
     dueInMinutes: 180,
     color: PALETTE.green,
     avatar:
@@ -57,7 +59,7 @@ export const INITIAL_TASKS = [
     pet: "Both",
     title: "Grooming Appointment",
     subtitle: "Both pets - Nail trimming & bath",
-    status: "upcoming",
+    status: "upcoming" as TaskStatus,
     dueInMinutes: 300,
     color: PALETTE.purple,
     avatar:
