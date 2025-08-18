@@ -26,9 +26,9 @@ const TaskListComponent = ({
   return (
     <FlatList
       data={tasks}
-      keyExtractor={(task) => task.id}
+      keyExtractor={(item) => item.id}
       contentContainerStyle={TASK_LIST_CONTENT_CONTAINER_STYLE}
-      renderItem={({ item, index }) => <TaskCard task={item} />}
+      renderItem={({ item }) => <TaskCard task={item} />}
       ListEmptyComponent={<TaskListEmpty />}
     />
   );
