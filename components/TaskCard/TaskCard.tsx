@@ -1,28 +1,27 @@
-import { AVATAR_SIZE, PADDING_H, PALETTE } from "@/constants";
 import { TaskCardProps } from "@/types/task";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import React, { memo, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import Swipeable, {
+  SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useTaskCard } from "./useTaskCard";
 
 const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
-  const swipeRef = useRef<Swipeable | null>(null);
+  const swipeRef = useRef<SwipeableMethods | null>(null);
   const { memoizedMinutesText } = useTaskCard(task);
-  const { avatar, title, subtitle, status } = task;
+  const { avatar, title, subtitle, status, color } = task;
 
   return (
     <Swipeable
       ref={swipeRef}
       renderLeftActions={() => (
-        <View style={[styles.leftAction]}>
+        <View className="bg-green-600 rounded-2xl mr-2 items-center justify-center px-3">
           <Ionicons name="checkmark-done" size={26} color="#fff" />
-          <Text style={{ color: "white", fontWeight: "700", marginTop: 6 }}>
-            Done
-          </Text>
+          <Text className="text-white font-bold mt-1">Done</Text>
         </View>
       )}
       leftThreshold={48}
@@ -33,27 +32,28 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
         onDone?.();
       }}
     >
-      <Animated.View entering={FadeInDown.springify()} style={styles.card}>
-        {task.status === "overdue" && <View style={styles.overdueStripe} />}
-        <View style={styles.row}>
-          <Image source={task.avatar} style={styles.petAvatar} />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.cardTitle}>{task.title}</Text>
+      <Animated.View
+        entering={FadeInDown.springify()}
+        className="bg-white rounded-2xl p-4 border-hairline border-purple-50 overflow-hidden"
+      >
+        {status === "overdue" && (
+          <View className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500 rounded-tl-2xl rounded-bl-2xl" />
+        )}
+        <View className="flex-row gap-3">
+          <Image source={avatar} className="w-12 h-12 rounded-3xl" />
+          <View className="flex-1">
+            <Text className="text-xl font-extrabold text-neutral-900">
+              {title}
+            </Text>
             <Text
-              style={[
-                styles.cardDue,
-                task.status === "overdue" && {
-                  color: PALETTE.red,
-                  fontWeight: "700",
-                },
-              ]}
+              className={`mt-1 text-gray-500 font-semibold ${status === "overdue" && "text-red-500"}`}
             >
               {memoizedMinutesText}
             </Text>
-            <Text style={styles.cardSub}>{task.subtitle}</Text>
+            <Text className="mt-2">{subtitle}</Text>
           </View>
 
-          <View style={styles.rightCol}>
+          <View className="items-center justify-between">
             <Pressable
               onPress={() => {
                 Haptics.selectionAsync();
@@ -61,15 +61,15 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
               }}
               style={({ pressed }) => [
                 styles.doneBtn,
-                { backgroundColor: task.color },
+                { backgroundColor: color },
                 pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
               ]}
             >
-              <Text style={styles.doneText}>Done</Text>
+              <Text className="text-white font-semibold">Done</Text>
             </Pressable>
 
-            <View style={styles.clockPill}>
-              <Ionicons name="time-outline" size={14} color={PALETTE.blue} />
+            <View className="mt-2 bg-indigo-50 p-2 rounded-xl">
+              <Ionicons name="time-outline" size={14} color="#2563EB" />
             </View>
           </View>
         </View>
@@ -81,50 +81,5 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
 export const TaskCard = memo(TaskCardComponent);
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: PALETTE.card,
-    borderRadius: 18,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: PALETTE.border,
-    overflow: "hidden",
-  },
-  overdueStripe: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 6,
-    backgroundColor: PALETTE.red,
-    borderTopLeftRadius: 18,
-    borderBottomLeftRadius: 18,
-  },
-  row: { flexDirection: "row", gap: 12 },
-  petAvatar: {
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE / 2,
-    marginRight: 4,
-  },
-  cardTitle: { fontSize: 20, fontWeight: "800", color: PALETTE.text },
-  cardDue: { marginTop: 4, color: PALETTE.sub, fontWeight: "700" },
-  cardSub: { marginTop: 6, color: PALETTE.sub },
-  rightCol: { alignItems: "center", justifyContent: "space-between" },
   doneBtn: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12 },
-  doneText: { color: "white", fontWeight: "800" },
-  clockPill: {
-    marginTop: 8,
-    backgroundColor: "#E6EEFF",
-    padding: 8,
-    borderRadius: 12,
-  },
-  leftAction: {
-    backgroundColor: PALETTE.green,
-    borderRadius: 18,
-    marginLeft: PADDING_H,
-    marginRight: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 14,
-  },
 });
