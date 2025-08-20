@@ -12,7 +12,7 @@ import Animated, { FadeIn } from "react-native-reanimated";
 export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
   const [completed, setCompleted] = useState<Task[]>([]);
-  const [selected, setSelected] = useState<TaskStatus>("today");
+  const [selected, setSelected] = useState<TaskStatus>(TaskStatus.Today);
 
   // const counts = useMemo(() => {
   //   const c: Record<TabKey, number> = { today: 0, upcoming: 0, overdue: 0 };

@@ -1,5 +1,7 @@
 import { TaskStatus } from "@/types/task";
 
+export const PADDING_H = 20;
+export const AVATAR_SIZE = 48;
 export const PALETTE = {
   bg: "#FCFAFF",
   card: "#FFFFFF",
@@ -11,15 +13,34 @@ export const PALETTE = {
   red: "#EF4444",
   border: "#F0ECF8",
 };
-
+export const TASK_COLOR = {
+  [TaskStatus.Overdue]: {
+    bgColor: "bg-red-50",
+    borderColor: "border-red-400",
+    avatarBorder: "border-red-200",
+    minsText: "text-red-600",
+    doneBtn: "bg-red-500",
+    iconBgColor: "bg-red-100",
+    iconTextColor: "#dc2626",
+  },
+  default: {
+    bgColor: "bg-white/80",
+    borderColor: "border-purple-100",
+    avatarBorder: "border-blue-200",
+    minsText: "text-blue-600",
+    doneBtn: "bg-blue-500",
+    iconBgColor: "bg-blue-100",
+    iconTextColor: "#2563eb",
+  },
+};
+export const getTaskColor = (status: TaskStatus) =>
+  status === TaskStatus.Overdue
+    ? TASK_COLOR[TaskStatus.Overdue]
+    : TASK_COLOR.default;
 export const TASK_LIST_CONTENT_CONTAINER_STYLE = {
   paddingHorizontal: 12,
   gap: 4,
 };
-
-export const PADDING_H = 20;
-export const AVATAR_SIZE = 48;
-
 export const INITIAL_TASKS = [
   {
     id: "1",

@@ -1,3 +1,4 @@
+import { getTaskColor } from "@/constants";
 import { TaskCardProps } from "@/types/task";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -14,6 +15,15 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
   const swipeRef = useRef<SwipeableMethods | null>(null);
   const { memoizedMinutesText } = useTaskCard(task);
   const { avatar, title, subtitle, status, color } = task;
+  const {
+    bgColor,
+    borderColor,
+    avatarBorder,
+    minsText,
+    doneBtn,
+    iconBgColor,
+    iconTextColor,
+  } = getTaskColor(status);
 
   return (
     <Swipeable
@@ -34,23 +44,22 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
     >
       <Animated.View
         entering={FadeInDown.springify()}
-        className="bg-white rounded-2xl p-4 border-hairline border-purple-50 overflow-hidden"
+        className={`${bgColor} rounded-2xl p-4 border-hairline ${borderColor} backdrop-blur-sm overflow-hidden`}
       >
         {status === "overdue" && (
           <View className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500 rounded-tl-2xl rounded-bl-2xl" />
         )}
         <View className="flex-row gap-3">
-          <Image source={avatar} className="w-12 h-12 rounded-3xl" />
+          <Image
+            source={avatar}
+            className={`w-12 h-12 rounded-full border-2 ${avatarBorder}`}
+          />
           <View className="flex-1">
-            <Text className="text-xl font-extrabold text-neutral-900">
-              {title}
-            </Text>
-            <Text
-              className={`mt-1 text-gray-500 font-semibold ${status === "overdue" && "text-red-500"}`}
-            >
+            <Text className="font-semibold text-gray-800">{title}</Text>
+            <Text className={`mt-1 text-gray-500 font-semibold ${minsText}`}>
               {memoizedMinutesText}
             </Text>
-            <Text className="mt-2">{subtitle}</Text>
+            <Text className="text-xs text-gray-500">{subtitle}</Text>
           </View>
 
           <View className="items-center justify-between">
@@ -59,17 +68,18 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
                 Haptics.selectionAsync();
                 onDone?.();
               }}
-              style={({ pressed }) => [
-                styles.doneBtn,
-                { backgroundColor: color },
-                pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-              ]}
+              className={`${doneBtn} px-4 py-2 rounded-xl shadow-sm`}
+              // style={({ pressed }) => [
+              //   styles.doneBtn,
+              //   { backgroundColor: color },
+              //   pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
+              // ]}
             >
-              <Text className="text-white font-semibold">Done</Text>
+              <Text className="text-white text-sm font-medium">Done</Text>
             </Pressable>
 
-            <View className="mt-2 bg-indigo-50 p-2 rounded-xl">
-              <Ionicons name="time-outline" size={14} color="#2563EB" />
+            <View className={`${iconBgColor} mt-2 px-3 py-2 rounded-xl`}>
+              <Ionicons name="time-outline" size={14} color={iconTextColor} />
             </View>
           </View>
         </View>

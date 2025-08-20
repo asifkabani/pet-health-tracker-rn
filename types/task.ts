@@ -1,4 +1,8 @@
-export type TaskStatus = "today" | "upcoming" | "overdue";
+export enum TaskStatus {
+  Today = "today",
+  Upcoming = "upcoming",
+  Overdue = "overdue",
+}
 
 export type Task = {
   id: string;

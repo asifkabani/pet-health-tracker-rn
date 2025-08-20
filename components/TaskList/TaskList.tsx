@@ -6,7 +6,7 @@ import { TaskCard } from "../TaskCard/TaskCard";
 import { TaskListEmpty } from "./TaskListEmpty";
 
 const TaskListComponent = ({
-  tasks = [],
+  tasks,
   selected,
   completed,
   setCompleted,
