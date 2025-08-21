@@ -1,7 +1,8 @@
-import { Header } from "@/components/Header/Header";
-import { Progress } from "@/components/Progress/Progress";
-import { SegmentedTabsControl } from "@/components/SegmentedTabs/SegmentedTabs";
-import { TaskList } from "@/components/TaskList/TaskList";
+import { Header } from "@/components/app/Home/Header/Header";
+import { Progress } from "@/components/app/Home/Progress/Progress";
+import { TaskList } from "@/components/app/Home/TaskList/TaskList";
+
+import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 import { INITIAL_TASKS } from "@/constants";
 import { Task, TaskStatus } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";

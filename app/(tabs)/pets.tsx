@@ -3,30 +3,18 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { JSX, useMemo, useRef, useState } from "react";
-import {
-  FlatList,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
 import {
   GestureHandlerRootView,
   Swipeable,
 } from "react-native-gesture-handler";
 import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  Layout,
   ZoomIn,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 
 /* ------------------------------------------------------------------ */
@@ -86,10 +74,11 @@ const initialUpcoming: Task[] = [
 
 /* ------------------------------------------------------------------ */
 
-export default function PetScreen(): JSX.Element {
+export default function PetScreen() {
   const [tab, setTab] = useState<TabKey>("upcoming");
   const [upcoming, setUpcoming] = useState<Task[]>(initialUpcoming);
   const [history, setHistory] = useState<Task[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const counts = useMemo(
     () => ({
@@ -121,9 +110,12 @@ export default function PetScreen(): JSX.Element {
         <StatusBar barStyle="dark-content" />
         <Header />
         <ProfileHeader />
-        <Tabs tab={tab} counts={counts} onChange={setTab} />
+        {/* <SegmentedTabsControl
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+        /> */}
 
-        {tab === "upcoming" && (
+        {/* {tab === "upcoming" && (
           <FlatList
             data={upcoming}
             keyExtractor={(item) => item.id}
@@ -134,7 +126,11 @@ export default function PetScreen(): JSX.Element {
                 entering={FadeInDown.delay(index * 70).springify()}
                 layout={Layout.springify()}
               >
-                <TaskCard task={item} onDone={() => onDone(item)} onSnooze={() => onSnooze(item)} />
+                <TaskCard
+                  task={item}
+                  onDone={() => onDone(item)}
+                  onSnooze={() => onSnooze(item)}
+                />
               </Animated.View>
             )}
             ListEmptyComponent={
@@ -146,9 +142,9 @@ export default function PetScreen(): JSX.Element {
               </Animated.Text>
             }
           />
-        )}
+        )} */}
 
-        {tab === "history" && (
+        {/* {tab === "history" && (
           <FlatList
             data={history}
             keyExtractor={(item) => item.id}
@@ -176,29 +172,47 @@ export default function PetScreen(): JSX.Element {
               </Animated.Text>
             }
           />
-        )}
+        )} */}
 
-        {tab === "records" && (
+        {/* {tab === "records" && (
           <ScrollView
             contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
             showsVerticalScrollIndicator={false}
           >
-            <Animated.View entering={FadeIn.springify()} style={styles.recordCard}>
-              <Ionicons name="document-text-outline" size={22} color={PALETTE.purple} />
+            <Animated.View
+              entering={FadeIn.springify()}
+              style={styles.recordCard}
+            >
+              <Ionicons
+                name="document-text-outline"
+                size={22}
+                color={PALETTE.purple}
+              />
               <View style={{ marginLeft: 10 }}>
-                <Text style={styles.recordTitle}>Upload vaccination record</Text>
+                <Text style={styles.recordTitle}>
+                  Upload vaccination record
+                </Text>
                 <Text style={styles.recordSub}>Tap to add a photo or PDF.</Text>
               </View>
             </Animated.View>
-            <Animated.View entering={FadeIn.delay(120).springify()} style={styles.recordCard}>
-              <Ionicons name="medkit-outline" size={22} color={PALETTE.purple} />
+            <Animated.View
+              entering={FadeIn.delay(120).springify()}
+              style={styles.recordCard}
+            >
+              <Ionicons
+                name="medkit-outline"
+                size={22}
+                color={PALETTE.purple}
+              />
               <View style={{ marginLeft: 10 }}>
                 <Text style={styles.recordTitle}>Add a medication</Text>
-                <Text style={styles.recordSub}>Keep dosages and reminders together.</Text>
+                <Text style={styles.recordSub}>
+                  Keep dosages and reminders together.
+                </Text>
               </View>
             </Animated.View>
           </ScrollView>
-        )}
+        )} */}
       </View>
     </GestureHandlerRootView>
   );
@@ -216,7 +230,10 @@ function Header() {
       end={{ x: 1, y: 1 }}
       style={styles.headerGrad}
     >
-      <Pressable style={styles.circleBtn} onPress={() => Haptics.selectionAsync()}>
+      <Pressable
+        style={styles.circleBtn}
+        onPress={() => Haptics.selectionAsync()}
+      >
         <Ionicons name="chevron-back" size={20} color="#111827" />
       </Pressable>
 
@@ -314,7 +331,9 @@ function Tabs({
             ) : (
               <Text style={styles.tabText}>{t.label}</Text>
             )}
-            <View style={[styles.countDot, active && { backgroundColor: "#fff" }]}>
+            <View
+              style={[styles.countDot, active && { backgroundColor: "#fff" }]}
+            >
               <Text style={[styles.countTxt, active && { color: "#111827" }]}>
                 {counts[t.key]}
               </Text>
