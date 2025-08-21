@@ -22,7 +22,5 @@ export type TaskCardProps = {
 
 export type TaskListProps = {
   tasks: Task[];
-  selected: TaskStatus;
-  completed: Task[];
-  setCompleted: Function;
+  selectedIndex: number;
 };

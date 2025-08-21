@@ -9,7 +9,9 @@ const SegmentedTabs = ({
   setSelectedIndex,
 }: SegmentedTabsProps) => {
   const handleTabChange = useCallback(
-    (index: number) => setSelectedIndex(index),
+    (index: number) => {
+      setSelectedIndex(index);
+    },
     [selectedIndex, setSelectedIndex]
   );
 
