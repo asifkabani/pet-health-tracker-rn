@@ -39,7 +39,7 @@ export const getTaskColor = (status: TaskStatus) =>
     : TASK_COLOR.default;
 export const TASK_LIST_CONTENT_CONTAINER_STYLE = {
   paddingHorizontal: 12,
-  gap: 4,
+  gap: 10,
 };
 export const INITIAL_TASKS = [
   {

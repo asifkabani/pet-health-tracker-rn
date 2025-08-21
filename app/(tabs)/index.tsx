@@ -1,10 +1,11 @@
 import { Header } from "@/components/Header/Header";
+import { Progress } from "@/components/Progress/Progress";
 import { SegmentedTabsControl } from "@/components/SegmentedTabs/SegmentedTabs";
 import { TaskList } from "@/components/TaskList/TaskList";
 import { INITIAL_TASKS } from "@/constants";
 import { Task, TaskStatus } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
@@ -13,6 +14,8 @@ export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
   const [completed, setCompleted] = useState<Task[]>([]);
   const [selected, setSelected] = useState<TaskStatus>(TaskStatus.Today);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const tabsValues = useMemo(() => ["Today", "Upcoming", "Overdue"], []);
 
   // const counts = useMemo(() => {
   //   const c: Record<TabKey, number> = { today: 0, upcoming: 0, overdue: 0 };
@@ -43,14 +46,18 @@ export default function HomeScreen() {
         >
           <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
             <Header />
-            <SegmentedTabsControl />
+            <SegmentedTabsControl
+              tabsValues={tabsValues}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+            />
             <TaskList
               tasks={tasks}
               selected={selected}
               completed={completed}
               setCompleted={setCompleted}
             />
-            {/* <Progress completed="" pendingCount={0} /> */}
+            <Progress completed="2" pendingCount={0} />
           </LinearGradient>
         </ScrollView>
       </Animated.View>

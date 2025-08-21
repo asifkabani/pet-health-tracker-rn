@@ -1,7 +1,5 @@
-import { PADDING_H, PALETTE } from "@/constants";
-import { Ionicons } from "@expo/vector-icons";
 import { memo } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { ProgressTile } from "../ProgressTile/ProgressTile";
 
@@ -15,42 +13,22 @@ const ProgressComponent = ({
   return (
     <Animated.View
       entering={FadeInDown.delay(150).springify()}
-      style={{ paddingHorizontal: PADDING_H, marginTop: 24 }}
+      className="mt-1  bg-white/60 backdrop-blur-sm rounded-2xl p-6 mx-3 border border-purple-100"
     >
-      <Text style={styles.sectionTitle}>Today's Progress</Text>
-      <View style={styles.progressGrid}>
+      <Text className="text-lg font-bold text-gray-800 mb-4">
+        Today's Progress
+      </Text>
+      <View className="grid grid-cols-3 gap-4">
         <ProgressTile
-          icon={<Ionicons name="checkmark-circle" size={28} />}
+          icon="checkmark-sharp"
           label="Completed"
           value={completed.length}
         />
-        <ProgressTile
-          icon={<Ionicons name="time-outline" size={28} />}
-          label="Pending"
-          value={pendingCount}
-        />
-        <ProgressTile
-          icon={<Ionicons name="flame-outline" size={28} />}
-          label="Day Streak"
-          value={7}
-        />
+        <ProgressTile icon="time-sharp" label="Pending" value={pendingCount} />
+        <ProgressTile icon="flame-sharp" label="Day Streak" value={7} />
       </View>
     </Animated.View>
   );
 };
 
-export const Progress = memo(ProgressComponent)
-
-const styles = StyleSheet.create({
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: "800",
-    color: PALETTE.text,
-    marginBottom: 12,
-  },
-  progressGrid: {
-    flexDirection: "row",
-    gap: 14,
-    justifyContent: "space-between",
-  },
-});
+export const Progress = memo(ProgressComponent);
