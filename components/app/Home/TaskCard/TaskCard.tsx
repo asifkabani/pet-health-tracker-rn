@@ -1,5 +1,5 @@
-import { getTaskColor } from "@/constants";
 import { TaskCardProps } from "@/types/task";
+import { getTaskColor } from "@/util";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
@@ -14,7 +14,7 @@ import { useTaskCard } from "./useTaskCard";
 const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
   const swipeRef = useRef<SwipeableMethods | null>(null);
   const { memoizedMinutesText } = useTaskCard(task);
-  const { avatar, title, subtitle, status, color } = task;
+  const { avatar, title, subtitle, status } = task;
   const {
     bgColor,
     borderColor,
