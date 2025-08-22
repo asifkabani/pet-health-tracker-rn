@@ -13,6 +13,7 @@ export const PALETTE = {
   red: "#EF4444",
   border: "#F0ECF8",
 };
+
 export const TASK_COLOR = {
   [TaskStatus.Overdue]: {
     bgColor: "bg-red-50",
@@ -33,10 +34,7 @@ export const TASK_COLOR = {
     iconTextColor: "#2563eb",
   },
 };
-export const getTaskColor = (status: TaskStatus) =>
-  status === TaskStatus.Overdue
-    ? TASK_COLOR[TaskStatus.Overdue]
-    : TASK_COLOR.default;
+
 export const TASK_LIST_CONTENT_CONTAINER_STYLE = {
   paddingHorizontal: 12,
   gap: 10,
