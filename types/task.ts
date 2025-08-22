@@ -4,6 +4,12 @@ export enum TaskStatus {
   Overdue = "overdue",
 }
 
+export enum ProgressStatus {
+  Completed = "Completed",
+  Pending = "Pending",
+  DayStreak = "Day Streak",
+}
+
 export type Task = {
   id: string;
   pet: string;
