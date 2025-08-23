@@ -1,15 +1,28 @@
-// PetScreen.tsx
+import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
+import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useMemo, useRef, useState } from "react";
-import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import {
   GestureHandlerRootView,
   Swipeable,
 } from "react-native-gesture-handler";
 import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  Layout,
   ZoomIn,
   useAnimatedStyle,
   useSharedValue,
@@ -79,6 +92,7 @@ export default function PetScreen() {
   const [upcoming, setUpcoming] = useState<Task[]>(initialUpcoming);
   const [history, setHistory] = useState<Task[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const tabsValues = ["Upcoming", "History", "Records"];
 
   const counts = useMemo(
     () => ({
@@ -108,14 +122,15 @@ export default function PetScreen() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <Header />
+        <PetHeader />
         <ProfileHeader />
-        {/* <SegmentedTabsControl
+        <SegmentedTabsControl
+          tabsValues={tabsValues}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
-        /> */}
+        />
 
-        {/* {tab === "upcoming" && (
+        {selectedIndex === 0 && (
           <FlatList
             data={upcoming}
             keyExtractor={(item) => item.id}
@@ -142,9 +157,9 @@ export default function PetScreen() {
               </Animated.Text>
             }
           />
-        )} */}
+        )}
 
-        {/* {tab === "history" && (
+        {selectedIndex === 1 && (
           <FlatList
             data={history}
             keyExtractor={(item) => item.id}
@@ -172,9 +187,9 @@ export default function PetScreen() {
               </Animated.Text>
             }
           />
-        )} */}
+        )}
 
-        {/* {tab === "records" && (
+        {selectedIndex === 2 && (
           <ScrollView
             contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
             showsVerticalScrollIndicator={false}
@@ -212,7 +227,7 @@ export default function PetScreen() {
               </View>
             </Animated.View>
           </ScrollView>
-        )} */}
+        )}
       </View>
     </GestureHandlerRootView>
   );
@@ -221,31 +236,6 @@ export default function PetScreen() {
 /* ------------------------------------------------------------------ */
 /* UI Blocks */
 /* ------------------------------------------------------------------ */
-
-function Header() {
-  return (
-    <LinearGradient
-      colors={["#F1E9FF", "#E9F2FF"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.headerGrad}
-    >
-      <Pressable
-        style={styles.circleBtn}
-        onPress={() => Haptics.selectionAsync()}
-      >
-        <Ionicons name="chevron-back" size={20} color="#111827" />
-      </Pressable>
-
-      <Pressable
-        style={[styles.editBtn, styles.shadow]}
-        onPress={() => Haptics.selectionAsync()}
-      >
-        <Text style={{ fontWeight: "700", color: "#111827" }}>Edit</Text>
-      </Pressable>
-    </LinearGradient>
-  );
-}
 
 function ProfileHeader() {
   const pulse = useSharedValue(1);
@@ -448,39 +438,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-  },
-
-  /* Header gradient area (with back & edit) */
-  headerGrad: {
-    height: 180,
-    paddingTop: 20,
-    paddingHorizontal: 16,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  circleBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  editBtn: {
-    paddingHorizontal: 16,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  shadow: {
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
   },
 
   /* Profile block */
