@@ -56,3 +56,7 @@ export const getValueColor = (label: string) => {
 
   return { bgColor, textColor, icon };
 };
+
+export const toTitleCase = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
