@@ -3,13 +3,12 @@ import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { ProgressTile } from "../ProgressTile/ProgressTile";
 
-const ProgressComponent = ({
-  completed,
-  pendingCount,
-}: {
+type ProgressProps = {
   completed: string;
   pendingCount: number;
-}) => {
+};
+
+const ProgressComponent = ({ completed, pendingCount }: ProgressProps) => {
   return (
     <Animated.View
       entering={FadeInDown.delay(150).springify()}

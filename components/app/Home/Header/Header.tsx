@@ -1,4 +1,4 @@
-import { useHomePage } from "@/hooks/useHomePage/useHomePage";
+import { Pet } from "@/store";
 import { toTitleCase } from "@/util";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -6,9 +6,14 @@ import { memo } from "react";
 import { Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
-const HeaderComponent = () => {
-  const { date, timeOfDay, userName, pets } = useHomePage();
+type HeaderProps = {
+  date: string;
+  timeOfDay: string;
+  userName: string;
+  pets: Pet[];
+};
 
+const HeaderComponent = ({ date, timeOfDay, userName, pets }: HeaderProps) => {
   return (
     <Animated.View className="px-5 pt-4 pb-2">
       <Text className="text-sm text-gray-500 font-medium">{date}</Text>
