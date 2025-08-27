@@ -37,7 +37,6 @@ export const useStore = create<State>()((set) => ({
       type: "dog",
       breed: "pitbull",
       weight: 70,
-      avatar: null,
     },
   ],
 }));
