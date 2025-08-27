@@ -4,6 +4,7 @@ import { TaskList } from "@/components/app/Home/TaskList/TaskList";
 
 import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 import { INITIAL_TASKS } from "@/constants";
+import { useHomePage } from "@/hooks/useHomePage/useHomePage";
 import { Task } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -15,13 +16,19 @@ export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Today", "Upcoming", "Overdue"];
+  const { date, timeOfDay, userName, pets } = useHomePage();
 
   return (
     <GestureHandlerRootView className="flex-1">
       <Animated.View className="flex-1" entering={FadeIn.duration(300)}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
-            <Header />
+            <Header
+              date={date}
+              timeOfDay={timeOfDay}
+              userName={userName}
+              pets={pets}
+            />
             <SegmentedTabsControl
               tabsValues={tabsValues}
               selectedIndex={selectedIndex}
