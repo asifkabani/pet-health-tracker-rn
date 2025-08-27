@@ -3,50 +3,18 @@ import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfile
 import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
 import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
-import { Ionicons } from "@expo/vector-icons";
+import { PetTask } from "@/types/pet";
 import * as Haptics from "expo-haptics";
 import React, { useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, StatusBar, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
-  FadeIn,
   FadeInDown,
   FadeInUp,
   Layout,
 } from "react-native-reanimated";
 
-type Task = {
-  id: string;
-  kind: "Medication" | "Grooming" | "Vet Appointment";
-  detail: string;
-  chip: string; // e.g. "Today 8:00 AM"
-  dot: string; // left colored dot
-  tint: string; // card border tint
-};
-
-const PALETTE = {
-  bg: "#F7F5FF",
-  text: "#0F172A",
-  sub: "#6B7280",
-  purple: "#6D28D9",
-  purple2: "#7C3AED",
-  blue: "#2563EB",
-  green: "#16A34A",
-  red: "#EF4444",
-  border: "#EDEBFF",
-  card: "#FFFFFF",
-  chipBg: "#F3F4F6",
-  shadow: "rgba(16,24,40,0.06)",
-};
-
-const initialUpcoming: Task[] = [
+const initialUpcoming: PetTask[] = [
   {
     id: "t1",
     kind: "Medication",
@@ -74,20 +42,20 @@ const initialUpcoming: Task[] = [
 ];
 
 export default function PetScreen() {
-  const [upcoming, setUpcoming] = useState<Task[]>(initialUpcoming);
-  const [history, setHistory] = useState<Task[]>([]);
+  const [upcoming, setUpcoming] = useState<PetTask[]>(initialUpcoming);
+  const [history, setHistory] = useState<PetTask[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Upcoming", "History", "Records"];
   const { pet } = usePetsPage();
   const { name, age, gender, weight, breed } = pet;
 
-  const onDone = (task: Task) => {
+  const onDone = (task: PetTask) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     setUpcoming((prev) => prev.filter((t) => t.id !== task.id));
     setHistory((prev) => [{ ...task, chip: "Completed just now" }, ...prev]);
   };
 
-  const onSnooze = (task: Task) => {
+  const onSnooze = (task: PetTask) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     // simple UX stub: push the item to the end and change the chip text
     setUpcoming((prev) => {
@@ -97,8 +65,8 @@ export default function PetScreen() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={styles.container}>
+    <GestureHandlerRootView>
+      <View className="flex-1 bg-white">
         <StatusBar barStyle="dark-content" />
         <PetHeader />
         <ProfileHeader
@@ -135,7 +103,7 @@ export default function PetScreen() {
             ListEmptyComponent={
               <Animated.Text
                 entering={FadeInUp.springify()}
-                style={styles.empty}
+                className="text-center mt-6 color-gray-500 font-bold"
               >
                 All caught up. 🎉
               </Animated.Text>
@@ -165,7 +133,7 @@ export default function PetScreen() {
             ListEmptyComponent={
               <Animated.Text
                 entering={FadeInUp.springify()}
-                style={styles.empty}
+                className="text-center mt-6 color-gray-500 font-bold"
               >
                 No history yet.
               </Animated.Text>
@@ -174,84 +142,35 @@ export default function PetScreen() {
         )}
 
         {selectedIndex === 2 && (
-          <ScrollView
-            contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
-            showsVerticalScrollIndicator={false}
-          >
-            <Animated.View
-              entering={FadeIn.springify()}
-              style={styles.recordCard}
-            >
-              <Ionicons
-                name="document-text-outline"
-                size={22}
-                color={PALETTE.purple}
-              />
-              <View style={{ marginLeft: 10 }}>
-                <Text style={styles.recordTitle}>
-                  Upload vaccination record
-                </Text>
-                <Text style={styles.recordSub}>Tap to add a photo or PDF.</Text>
-              </View>
-            </Animated.View>
-            <Animated.View
-              entering={FadeIn.delay(120).springify()}
-              style={styles.recordCard}
-            >
-              <Ionicons
-                name="medkit-outline"
-                size={22}
-                color={PALETTE.purple}
-              />
-              <View style={{ marginLeft: 10 }}>
-                <Text style={styles.recordTitle}>Add a medication</Text>
-                <Text style={styles.recordSub}>
-                  Keep dosages and reminders together.
-                </Text>
-              </View>
-            </Animated.View>
-          </ScrollView>
+          <FlatList
+            data={history}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+            ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
+            renderItem={({ item, index }) => (
+              <Animated.View
+                entering={FadeInDown.delay(index * 60).springify()}
+                layout={Layout.springify()}
+              >
+                <PetTaskCard
+                  task={item}
+                  disabled
+                  // doneLabel="Completed"
+                  rightIcon="checkmark-done"
+                />
+              </Animated.View>
+            )}
+            ListEmptyComponent={
+              <Animated.Text
+                entering={FadeInUp.springify()}
+                className="text-center mt-6 color-gray-500 font-bold"
+              >
+                No records yet.
+              </Animated.Text>
+            }
+          />
         )}
       </View>
     </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-
-  recordCard: {
-    borderWidth: 1,
-    borderColor: "#EEF2FF",
-    borderRadius: 14,
-    padding: 14,
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    marginBottom: 12,
-  },
-  recordTitle: { fontWeight: "800", color: "#111827", fontSize: 16 },
-  recordSub: { color: PALETTE.sub, marginTop: 2 },
-
-  empty: {
-    textAlign: "center",
-    marginTop: 24,
-    color: PALETTE.sub,
-    fontWeight: "700",
-  },
-
-  leftAction: {
-    width: 90,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 16,
-    marginRight: 8,
-  },
-});
