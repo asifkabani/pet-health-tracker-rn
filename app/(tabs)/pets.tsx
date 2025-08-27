@@ -13,6 +13,7 @@ import Animated, {
   FadeInUp,
   Layout,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const initialUpcoming: PetTask[] = [
   {
@@ -65,112 +66,114 @@ export default function PetScreen() {
   };
 
   return (
-    <GestureHandlerRootView>
-      <View className="flex-1 bg-white">
-        <StatusBar barStyle="dark-content" />
-        <PetHeader />
-        <ProfileHeader
-          name={name}
-          age={age}
-          gender={gender}
-          weight={weight}
-          breed={breed}
-        />
-        <SegmentedTabsControl
-          tabsValues={tabsValues}
-          selectedIndex={selectedIndex}
-          setSelectedIndex={setSelectedIndex}
-        />
-
-        {selectedIndex === 0 && (
-          <FlatList
-            data={upcoming}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
-            ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
-            renderItem={({ item, index }) => (
-              <Animated.View
-                entering={FadeInDown.delay(index * 70).springify()}
-                layout={Layout.springify()}
-              >
-                <PetTaskCard
-                  task={item}
-                  onDone={() => onDone(item)}
-                  onSnooze={() => onSnooze(item)}
-                />
-              </Animated.View>
-            )}
-            ListEmptyComponent={
-              <Animated.Text
-                entering={FadeInUp.springify()}
-                className="text-center mt-6 color-gray-500 font-bold"
-              >
-                All caught up. 🎉
-              </Animated.Text>
-            }
+    <SafeAreaView className="flex-1">
+      <GestureHandlerRootView>
+        <View className="flex-1 bg-white">
+          <StatusBar barStyle="dark-content" />
+          <PetHeader />
+          <ProfileHeader
+            name={name}
+            age={age}
+            gender={gender}
+            weight={weight}
+            breed={breed}
           />
-        )}
-
-        {selectedIndex === 1 && (
-          <FlatList
-            data={history}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
-            ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
-            renderItem={({ item, index }) => (
-              <Animated.View
-                entering={FadeInDown.delay(index * 60).springify()}
-                layout={Layout.springify()}
-              >
-                <PetTaskCard
-                  task={item}
-                  disabled
-                  // doneLabel="Completed"
-                  rightIcon="checkmark-done"
-                />
-              </Animated.View>
-            )}
-            ListEmptyComponent={
-              <Animated.Text
-                entering={FadeInUp.springify()}
-                className="text-center mt-6 color-gray-500 font-bold"
-              >
-                No history yet.
-              </Animated.Text>
-            }
+          <SegmentedTabsControl
+            tabsValues={tabsValues}
+            selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
           />
-        )}
 
-        {selectedIndex === 2 && (
-          <FlatList
-            data={history}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
-            ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
-            renderItem={({ item, index }) => (
-              <Animated.View
-                entering={FadeInDown.delay(index * 60).springify()}
-                layout={Layout.springify()}
-              >
-                <PetTaskCard
-                  task={item}
-                  disabled
-                  // doneLabel="Completed"
-                  rightIcon="checkmark-done"
-                />
-              </Animated.View>
-            )}
-            ListEmptyComponent={
-              <Animated.Text
-                entering={FadeInUp.springify()}
-                className="text-center mt-6 color-gray-500 font-bold"
-              >
-                No records yet.
-              </Animated.Text>
-            }
-          />
-        )}
-      </View>
-    </GestureHandlerRootView>
+          {selectedIndex === 0 && (
+            <FlatList
+              data={upcoming}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+              ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
+              renderItem={({ item, index }) => (
+                <Animated.View
+                  entering={FadeInDown.delay(index * 70).springify()}
+                  layout={Layout.springify()}
+                >
+                  <PetTaskCard
+                    task={item}
+                    onDone={() => onDone(item)}
+                    onSnooze={() => onSnooze(item)}
+                  />
+                </Animated.View>
+              )}
+              ListEmptyComponent={
+                <Animated.Text
+                  entering={FadeInUp.springify()}
+                  className="text-center mt-6 color-gray-500 font-bold"
+                >
+                  All caught up. 🎉
+                </Animated.Text>
+              }
+            />
+          )}
+
+          {selectedIndex === 1 && (
+            <FlatList
+              data={history}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+              ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
+              renderItem={({ item, index }) => (
+                <Animated.View
+                  entering={FadeInDown.delay(index * 60).springify()}
+                  layout={Layout.springify()}
+                >
+                  <PetTaskCard
+                    task={item}
+                    disabled
+                    // doneLabel="Completed"
+                    rightIcon="checkmark-done"
+                  />
+                </Animated.View>
+              )}
+              ListEmptyComponent={
+                <Animated.Text
+                  entering={FadeInUp.springify()}
+                  className="text-center mt-6 color-gray-500 font-bold"
+                >
+                  No history yet.
+                </Animated.Text>
+              }
+            />
+          )}
+
+          {selectedIndex === 2 && (
+            <FlatList
+              data={history}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
+              ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
+              renderItem={({ item, index }) => (
+                <Animated.View
+                  entering={FadeInDown.delay(index * 60).springify()}
+                  layout={Layout.springify()}
+                >
+                  <PetTaskCard
+                    task={item}
+                    disabled
+                    // doneLabel="Completed"
+                    rightIcon="checkmark-done"
+                  />
+                </Animated.View>
+              )}
+              ListEmptyComponent={
+                <Animated.Text
+                  entering={FadeInUp.springify()}
+                  className="text-center mt-6 color-gray-500 font-bold"
+                >
+                  No records yet.
+                </Animated.Text>
+              }
+            />
+          )}
+        </View>
+      </GestureHandlerRootView>
+    </SafeAreaView>
   );
 }

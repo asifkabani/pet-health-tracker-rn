@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
@@ -19,26 +20,28 @@ export default function HomeScreen() {
   const { date, timeOfDay, userName, pets } = useHomePage();
 
   return (
-    <GestureHandlerRootView className="flex-1">
-      <Animated.View className="flex-1" entering={FadeIn.duration(300)}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
-            <Header
-              date={date}
-              timeOfDay={timeOfDay}
-              userName={userName}
-              pets={pets}
-            />
-            <SegmentedTabsControl
-              tabsValues={tabsValues}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-            />
-            <TaskList tasks={tasks} selectedIndex={selectedIndex} />
-            <Progress completed="2" pendingCount={0} />
-          </LinearGradient>
-        </ScrollView>
-      </Animated.View>
-    </GestureHandlerRootView>
+    <SafeAreaView className="flex-1">
+      <GestureHandlerRootView>
+        <Animated.View className="flex-1" entering={FadeIn.duration(300)}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <LinearGradient colors={["#FAF5FF", "#FDF2F8"]}>
+              <Header
+                date={date}
+                timeOfDay={timeOfDay}
+                userName={userName}
+                pets={pets}
+              />
+              <SegmentedTabsControl
+                tabsValues={tabsValues}
+                selectedIndex={selectedIndex}
+                setSelectedIndex={setSelectedIndex}
+              />
+              <TaskList tasks={tasks} selectedIndex={selectedIndex} />
+              <Progress completed="2" pendingCount={0} />
+            </LinearGradient>
+          </ScrollView>
+        </Animated.View>
+      </GestureHandlerRootView>
+    </SafeAreaView>
   );
 }
