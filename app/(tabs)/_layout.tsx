@@ -3,9 +3,21 @@ import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   const tabScreens = [
-    { name: "index", title: "Home", icon: "home" },
-    { name: "pets", title: "Pets", icon: "paw" },
-    { name: "settings", title: "Settings", icon: "cog" },
+    {
+      name: "index",
+      title: "Home",
+      icon: { default: "home-outline", focused: "home-sharp" },
+    },
+    {
+      name: "pets",
+      title: "Pets",
+      icon: { default: "paw-outline", focused: "paw-sharp" },
+    },
+    {
+      name: "settings",
+      title: "Settings",
+      icon: { default: "cog-outline", focused: "cog-sharp" },
+    },
   ];
 
   return (
@@ -21,7 +33,7 @@ export default function TabLayout() {
     >
       {tabScreens.map((tab, index) => {
         const iconName = (focused: boolean): string =>
-          focused ? `${tab.icon}-sharp` : `${tab.icon}-outline`;
+          focused ? tab.icon.focused : tab.icon.default;
 
         return (
           <Tabs.Screen
