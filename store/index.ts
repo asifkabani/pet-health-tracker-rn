@@ -1,13 +1,14 @@
 import { create } from "zustand";
 
-interface Pet {
+export interface Pet {
   name: string;
   birthdate: string;
   age: number;
   gender: string;
   type: string;
+  breed?: string;
   weight: number;
-  avatar: string | null;
+  avatar?: string;
 }
 
 interface State {
@@ -33,7 +34,8 @@ export const useStore = create<State>()((set) => ({
       birthdate: "February 22, 2022",
       age: 3,
       gender: "female",
-      type: "pitbull",
+      type: "dog",
+      breed: "pitbull",
       weight: 70,
       avatar: null,
     },
