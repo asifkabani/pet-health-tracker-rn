@@ -60,3 +60,6 @@ export const getValueColor = (label: string) => {
 export const toTitleCase = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const tintFrom = (hex: string) => hex;
+export const textFrom = (hex: string) => "#1F2937";
