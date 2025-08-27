@@ -14,10 +14,10 @@ const ProgressComponent = ({ completed, pendingCount }: ProgressProps) => {
       entering={FadeInDown.delay(150).springify()}
       className="mt-1  bg-white/60 backdrop-blur-sm rounded-2xl p-6 mx-3 border border-purple-100"
     >
-      <Text className="text-lg font-bold text-gray-800 mb-4">
+      <Text className="text-lg font-bold text-gray-800 mb-5">
         Today's Progress
       </Text>
-      <View className="grid grid-cols-3 gap-4">
+      <View className="flex-row">
         <ProgressTile
           icon="checkmark-sharp"
           label="Completed"
