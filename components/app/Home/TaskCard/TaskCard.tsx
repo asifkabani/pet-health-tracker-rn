@@ -1,5 +1,5 @@
 import { TaskCardProps } from "@/types/task";
-import { getTaskColor } from "@/util";
+import { getTaskColor } from "@/util/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";

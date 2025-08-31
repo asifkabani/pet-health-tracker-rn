@@ -1,6 +1,6 @@
 import { PALETTE } from "@/constants";
 import { PetTaskCardProps } from "@/types/pet";
-import { textFrom, tintFrom } from "@/util";
+import { textFrom, tintFrom } from "@/util/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";

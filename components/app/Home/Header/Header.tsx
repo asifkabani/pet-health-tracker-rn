@@ -1,5 +1,5 @@
 import { Pet } from "@/store";
-import { toTitleCase } from "@/util";
+import { toTitleCase } from "@/util/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { memo } from "react";

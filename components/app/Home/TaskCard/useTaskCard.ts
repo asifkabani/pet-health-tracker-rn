@@ -1,5 +1,5 @@
 import { Task } from "@/types/task";
-import { minutesText } from "@/util";
+import { minutesText } from "@/util/helpers";
 import { useMemo } from "react";
 
 export const useTaskCard = (task: Task) => {

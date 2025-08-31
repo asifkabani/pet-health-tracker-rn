@@ -1,5 +1,5 @@
 import { PetHeaderProps } from "@/types/pet";
-import { toTitleCase } from "@/util";
+import { toTitleCase } from "@/util/helpers";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import React, { useEffect } from "react";
