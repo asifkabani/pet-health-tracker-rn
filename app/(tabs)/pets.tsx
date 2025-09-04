@@ -1,3 +1,4 @@
+import PetHistory from "@/components/app/Pets/History/PetHistory";
 import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
 import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfileHeader";
 import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
@@ -113,7 +114,9 @@ export default function PetScreen() {
             />
           )}
 
-          {selectedIndex === 1 && (
+          {selectedIndex === 1 && <PetHistory />}
+
+          {/* {selectedIndex === 1 && (
             <FlatList
               data={history}
               keyExtractor={(item) => item.id}
@@ -141,7 +144,7 @@ export default function PetScreen() {
                 </Animated.Text>
               }
             />
-          )}
+          )} */}
 
           {selectedIndex === 2 && (
             <FlatList
