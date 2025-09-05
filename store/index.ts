@@ -15,6 +15,7 @@ interface State {
   userName: string;
   timeOfDay: string;
   date: string;
+  isAuthenticated: boolean;
   pets: Pet[];
 }
 
@@ -28,6 +29,7 @@ export const useStore = create<State>()((set) => ({
   userName: "asif",
   timeOfDay: "morning",
   date: today,
+  isAuthenticated: false,
   pets: [
     {
       name: "Moon",
