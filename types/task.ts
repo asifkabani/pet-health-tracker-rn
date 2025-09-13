@@ -4,6 +4,11 @@ export enum TaskStatus {
   Overdue = "overdue",
 }
 
+export type TaskStatusColor = {
+  error: TaskStatus.Overdue;
+  default: TaskStatus.Today | TaskStatus.Upcoming;
+};
+
 export enum ProgressStatus {
   Completed = "Completed",
   Pending = "Pending",

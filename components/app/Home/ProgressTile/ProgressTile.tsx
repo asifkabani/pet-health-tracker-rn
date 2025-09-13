@@ -1,4 +1,4 @@
-import { getValueColor } from "@/util/helpers";
+import { getValueColor } from "@/util/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { memo } from "react";

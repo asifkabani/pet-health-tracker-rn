@@ -81,9 +81,9 @@ export default function PetScreen() {
 
   if (pets.length === 0) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className="flex-1">
         <GestureHandlerRootView>
-          <View className="flex-1 p-4">
+          <View className="flex-1 bg-white">
             <EmptyState
               icon="add-circle-outline"
               title="No pets yet"
@@ -104,7 +104,7 @@ export default function PetScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1">
       <GestureHandlerRootView>
         <View className="flex-1 bg-white">
           <StatusBar barStyle="dark-content" />

@@ -14,27 +14,6 @@ export const PALETTE = {
   border: "#F0ECF8",
 };
 
-export const TASK_COLOR = {
-  [TaskStatus.Overdue]: {
-    bgColor: "bg-red-50",
-    borderColor: "border-red-400",
-    avatarBorder: "border-red-200",
-    minsText: "text-red-600",
-    doneBtn: "bg-red-500",
-    iconBgColor: "bg-red-100",
-    iconTextColor: "#dc2626",
-  },
-  default: {
-    bgColor: "bg-white/80",
-    borderColor: "border-purple-100",
-    avatarBorder: "border-blue-200",
-    minsText: "text-blue-600",
-    doneBtn: "bg-blue-500",
-    iconBgColor: "bg-blue-100",
-    iconTextColor: "#2563eb",
-  },
-};
-
 export const TASK_LIST_CONTENT_CONTAINER_STYLE = {
   paddingHorizontal: 12,
   gap: 10,

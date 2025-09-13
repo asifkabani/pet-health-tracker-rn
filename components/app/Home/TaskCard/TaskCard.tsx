@@ -1,10 +1,10 @@
 import { TaskCardProps } from "@/types/task";
-import { getTaskColor } from "@/util/helpers";
+import { getTaskColor } from "@/util/colors";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import React, { memo, useRef } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Swipeable, {
   SwipeableMethods,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
@@ -69,11 +69,6 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
                 onDone?.();
               }}
               className={`${doneBtn} px-4 py-2 rounded-xl shadow-sm`}
-              // style={({ pressed }) => [
-              //   styles.doneBtn,
-              //   { backgroundColor: color },
-              //   pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
-              // ]}
             >
               <Text className="text-white text-sm font-medium">Done</Text>
             </Pressable>
@@ -89,7 +84,3 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
 };
 
 export const TaskCard = memo(TaskCardComponent);
-
-const styles = StyleSheet.create({
-  doneBtn: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12 },
-});
