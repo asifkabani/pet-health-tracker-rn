@@ -1,6 +1,6 @@
 import * as Haptics from "expo-haptics";
 import React, { useEffect, useState } from "react";
-import { FlatList, StatusBar, View } from "react-native";
+import { Button, FlatList, StatusBar, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   FadeInDown,
@@ -18,7 +18,9 @@ import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/Segmente
 import EmptyState from "@/components/ui/EmptyState";
 import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
 import { useBadgeStore } from "@/store/badges";
+import { usePetsStore } from "@/store/pets";
 import { PetTask } from "@/types/pet";
+import { router } from "expo-router";
 
 const initialUpcoming: PetTask[] = [
   {
@@ -52,6 +54,7 @@ export default function PetScreen() {
   const [history, setHistory] = useState<PetTask[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Upcoming", "History", "Records"];
+  const pets = usePetsStore((s) => s.pets);
 
   const { pet } = usePetsPage();
   const { name, age, gender, weight, breed } = pet;
@@ -75,6 +78,30 @@ export default function PetScreen() {
       return [...rest, { ...task, chip: "Snoozed 1 hr" }];
     });
   };
+
+  if (pets.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <GestureHandlerRootView>
+          <View className="flex-1 p-4">
+            <EmptyState
+              icon="add-circle-outline"
+              title="No pets yet"
+              subtitle="Add a pet to see reminders, history, and records here."
+              cta={
+                <Button
+                  title="Add a pet"
+                  onPress={() =>
+                    router.push("/(onboarding)/pet-profile" as any)
+                  }
+                />
+              }
+            />
+          </View>
+        </GestureHandlerRootView>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">

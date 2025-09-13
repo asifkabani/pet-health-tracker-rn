@@ -2,7 +2,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { cssInterop } from "nativewind";
 import React, { useEffect, useMemo, useState } from "react";
-import { ScrollView } from "react-native";
+import { Button, ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,10 +12,13 @@ import { Progress } from "@/components/app/Home/Progress/Progress";
 import { TaskList } from "@/components/app/Home/TaskList/TaskList";
 import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 
+import EmptyState from "@/components/ui/EmptyState";
 import { INITIAL_TASKS } from "@/constants";
 import { useHomePage } from "@/hooks/useHomePage/useHomePage";
 import { useBadgeStore } from "@/store/badges";
+import { usePetsStore } from "@/store/pets";
 import { Task } from "@/types/task";
+import { router } from "expo-router";
 
 const LG = cssInterop(LinearGradient, { className: "style" });
 const TAB_KEYS = ["today", "upcoming", "overdue"] as const;
@@ -26,6 +29,7 @@ export default function HomeScreen() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Today", "Upcoming", "Overdue"];
   const { date, timeOfDay, userName, pets } = useHomePage();
+  const petsCount = usePetsStore((s) => s.pets.length);
 
   // --- derive counts per tab (assumes Task has .status; fallback to "today") ---
   const counts = useMemo(() => {
@@ -51,6 +55,27 @@ export default function HomeScreen() {
   }, [counts.overdue, setTabBadge]);
 
   const pendingTotal = counts.today + counts.upcoming + counts.overdue;
+
+  if (petsCount === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <ScrollView contentContainerStyle={{ padding: 24 }}>
+          <EmptyState
+            icon="paw-outline"
+            title="Add your first pet"
+            subtitle="Create a profile to start tasks, reminders, and records."
+            cta={
+              <Button
+                title="Set up a pet"
+                onPress={() => router.push("/(onboarding)/pet-profile" as any)}
+              />
+            }
+            className="mt-8"
+          />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">
