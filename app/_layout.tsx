@@ -1,18 +1,35 @@
-import { useStore } from "@/store";
-import { Stack } from "expo-router";
+import { useAuthStore } from "@/store/auth";
+import { Slot, useRouter, useSegments } from "expo-router";
+import React, { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
 import "../global.css";
 
 export default function RootLayout() {
-  const isLoggedIn = useStore((state) => state.isAuthenticated);
+  const router = useRouter();
+  const segments = useSegments();
+  const { user, hydrated } = useAuthStore();
 
-  return (
-    <Stack>
-      <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-      </Stack.Protected>
-      <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack.Protected>
-    </Stack>
-  );
+  // Simple redirect logic:
+  useEffect(() => {
+    if (!hydrated) return;
+    const inAuth = segments[0] === "(auth)";
+
+    if (user && inAuth) {
+      // router.replace("/(tabs)");
+      console.log("Go to home");
+    } else if (!user && !inAuth) {
+      // router.replace("/(auth)/sign-in");
+      console.log("Go to sign in");
+    }
+  }, [hydrated, user, segments]);
+
+  if (!hydrated) {
+    return (
+      <View className="flex-1 items-center justify-center bg-white">
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  return <Slot />;
 }

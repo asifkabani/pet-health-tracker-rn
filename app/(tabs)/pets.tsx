@@ -1,12 +1,5 @@
-import PetHistory from "@/components/app/Pets/History/PetHistory";
-import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
-import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfileHeader";
-import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
-import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
-import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
-import { PetTask } from "@/types/pet";
 import * as Haptics from "expo-haptics";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StatusBar, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
@@ -15,6 +8,17 @@ import Animated, {
   Layout,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import PetHistory from "@/components/app/Pets/History/PetHistory";
+import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
+import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfileHeader";
+import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
+import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
+
+import EmptyState from "@/components/ui/EmptyState";
+import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
+import { useBadgeStore } from "@/store/badges";
+import { PetTask } from "@/types/pet";
 
 const initialUpcoming: PetTask[] = [
   {
@@ -48,8 +52,15 @@ export default function PetScreen() {
   const [history, setHistory] = useState<PetTask[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Upcoming", "History", "Records"];
+
   const { pet } = usePetsPage();
   const { name, age, gender, weight, breed } = pet;
+
+  // ---- Tab badge for "pets" route: show count of upcoming items
+  const setTabBadge = useBadgeStore((s) => s.setTabBadge);
+  useEffect(() => {
+    setTabBadge("pets", upcoming.length);
+  }, [upcoming.length, setTabBadge]);
 
   const onDone = (task: PetTask) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -59,7 +70,6 @@ export default function PetScreen() {
 
   const onSnooze = (task: PetTask) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // simple UX stub: push the item to the end and change the chip text
     setUpcoming((prev) => {
       const rest = prev.filter((t) => t.id !== task.id);
       return [...rest, { ...task, chip: "Snoozed 1 hr" }];
@@ -67,7 +77,7 @@ export default function PetScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <GestureHandlerRootView>
         <View className="flex-1 bg-white">
           <StatusBar barStyle="dark-content" />
@@ -79,12 +89,14 @@ export default function PetScreen() {
             weight={weight}
             breed={breed}
           />
+
           <SegmentedTabsControl
             tabsValues={tabsValues}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
           />
 
+          {/* Upcoming */}
           {selectedIndex === 0 && (
             <FlatList
               data={upcoming}
@@ -104,48 +116,23 @@ export default function PetScreen() {
                 </Animated.View>
               )}
               ListEmptyComponent={
-                <Animated.Text
-                  entering={FadeInUp.springify()}
-                  className="text-center mt-6 color-gray-500 font-bold"
-                >
-                  All caught up. 🎉
-                </Animated.Text>
+                <Animated.View entering={FadeInUp.springify()}>
+                  <EmptyState
+                    icon="checkmark-done"
+                    title="All caught up. 🎉"
+                    subtitle="No upcoming items."
+                    tone="success"
+                    className="mx-4 mt-6"
+                  />
+                </Animated.View>
               }
             />
           )}
 
+          {/* History (keeps your existing design, no duplicate header) */}
           {selectedIndex === 1 && <PetHistory />}
 
-          {/* {selectedIndex === 1 && (
-            <FlatList
-              data={history}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={{ padding: 16, paddingBottom: 32 }}
-              ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
-              renderItem={({ item, index }) => (
-                <Animated.View
-                  entering={FadeInDown.delay(index * 60).springify()}
-                  layout={Layout.springify()}
-                >
-                  <PetTaskCard
-                    task={item}
-                    disabled
-                    // doneLabel="Completed"
-                    rightIcon="checkmark-done"
-                  />
-                </Animated.View>
-              )}
-              ListEmptyComponent={
-                <Animated.Text
-                  entering={FadeInUp.springify()}
-                  className="text-center mt-6 color-gray-500 font-bold"
-                >
-                  No history yet.
-                </Animated.Text>
-              }
-            />
-          )} */}
-
+          {/* Records (placeholder — reuse EmptyState) */}
           {selectedIndex === 2 && (
             <FlatList
               data={history}
@@ -160,18 +147,20 @@ export default function PetScreen() {
                   <PetTaskCard
                     task={item}
                     disabled
-                    // doneLabel="Completed"
                     rightIcon="checkmark-done"
                   />
                 </Animated.View>
               )}
               ListEmptyComponent={
-                <Animated.Text
-                  entering={FadeInUp.springify()}
-                  className="text-center mt-6 color-gray-500 font-bold"
-                >
-                  No records yet.
-                </Animated.Text>
+                <Animated.View entering={FadeInUp.springify()}>
+                  <EmptyState
+                    icon="document-text-outline"
+                    title="No records yet."
+                    subtitle="Add vaccinations, prescriptions, and PDFs."
+                    tone="muted"
+                    className="mx-4 mt-6"
+                  />
+                </Animated.View>
               }
             />
           )}

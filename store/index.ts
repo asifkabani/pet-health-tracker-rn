@@ -17,6 +17,7 @@ interface State {
   date: string;
   isAuthenticated: boolean;
   pets: Pet[];
+  authenticateUser: Function;
 }
 
 const today = new Date().toLocaleDateString(undefined, {
@@ -41,4 +42,5 @@ export const useStore = create<State>()((set) => ({
       weight: 70,
     },
   ],
+  authenticateUser: () => set(() => ({ isAuthenticated: true })),
 }));

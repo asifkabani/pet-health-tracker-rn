@@ -18,31 +18,35 @@ export default function TabLayout() {
       title: "Settings",
       icon: { default: "cog-outline", focused: "cog-sharp" },
     },
-  ];
+  ] as const;
 
   return (
     <Tabs
+      // tabBar={(props) => <AppTabBar {...props} />}
       screenOptions={{
-        animation: "shift",
         headerShown: false,
-        tabBarActiveTintColor: "#ffd33d",
-        tabBarStyle: {
-          backgroundColor: "#25292e",
-        },
+        tabBarHideOnKeyboard: true, // better for forms
+        // (We style via our custom tabBar; keep these minimal)
       }}
     >
-      {tabScreens.map((tab, index) => {
-        const iconName = (focused: boolean): string =>
-          focused ? tab.icon.focused : tab.icon.default;
+      {tabScreens.map((tab) => {
+        const iconName = (focused: boolean): keyof typeof Ionicons.glyphMap =>
+          (focused
+            ? tab.icon.focused
+            : tab.icon.default) as keyof typeof Ionicons.glyphMap;
 
         return (
           <Tabs.Screen
-            key={`${tab.name}-${index}`}
+            key={tab.name}
             name={tab.name}
             options={{
-              title: `${tab.title}`,
-              tabBarIcon: ({ color, focused }) => (
-                <Ionicons name={iconName(focused)} color={color} size={24} />
+              title: tab.title,
+              tabBarIcon: ({ color, focused, size }) => (
+                <Ionicons
+                  name={iconName(focused)}
+                  color={color}
+                  size={size ?? 22}
+                />
               ),
             }}
           />
