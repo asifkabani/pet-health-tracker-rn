@@ -15,11 +15,9 @@ export default function RootLayout() {
     const inAuth = segments[0] === "(auth)";
 
     if (user && inAuth) {
-      // router.replace("/(tabs)");
-      console.log("Go to home");
+      router.replace("/(tabs)");
     } else if (!user && !inAuth) {
-      // router.replace("/(auth)/sign-in");
-      console.log("Go to sign in");
+      router.replace("/(auth)/sign-in");
     }
   }, [hydrated, user, segments]);
 
