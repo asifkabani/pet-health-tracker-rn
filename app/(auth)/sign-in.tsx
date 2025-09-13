@@ -38,11 +38,9 @@ export default function SignIn() {
     if (hydrated && user) router.replace("/(tabs)");
   }, [hydrated, user]);
 
-  // Google
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: "<YOUR_IOS_CLIENT_ID>.apps.googleusercontent.com",
-    androidClientId: "<YOUR_ANDROID_CLIENT_ID>.apps.googleusercontent.com",
-    webClientId: "<YOUR_WEB_CLIENT_ID>.apps.googleusercontent.com",
+    webClientId:
+      "177124050396-705o28t1cfeijhja8qt0f8i923vh8sc1.apps.googleusercontent.com",
     scopes: ["profile", "email"],
   });
 

@@ -1,4 +1,5 @@
 import { Pet } from "@/store";
+import { useAuthStore } from "@/store/auth";
 import { toTitleCase } from "@/util/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -14,6 +15,8 @@ type HeaderProps = {
 };
 
 const HeaderComponent = ({ date, timeOfDay, userName, pets }: HeaderProps) => {
+  const { user } = useAuthStore();
+
   return (
     <Animated.View className="px-5 pt-4 pb-2">
       <Text className="text-sm text-gray-500 font-medium">{date}</Text>
@@ -40,7 +43,12 @@ const HeaderComponent = ({ date, timeOfDay, userName, pets }: HeaderProps) => {
         <Image
           className="w-10 h-10 rounded-full border-2 border-purple-200"
           contentFit="cover"
-          source="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop"
+          source={{
+            uri:
+              user?.avatarUrl ??
+              "https://ui-avatars.com/api/?background=ECEAFF&color=4422AA&name=" +
+                encodeURIComponent(user?.name ?? "User"),
+          }}
         />
       </View>
     </Animated.View>

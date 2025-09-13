@@ -1,7 +1,8 @@
 import SignOutButton from "@/components/auth/SignOutButton";
 import { useAuthStore } from "@/store/auth";
+import { Image } from "expo-image";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function Settings() {
   const { user } = useAuthStore();
