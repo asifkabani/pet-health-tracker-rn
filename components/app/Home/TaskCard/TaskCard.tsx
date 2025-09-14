@@ -1,5 +1,4 @@
-import { TaskCardProps } from "@/types/task";
-import { getTaskColor } from "@/util/colors";
+import { TaskCardProps, TaskStatus } from "@/types/task";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
@@ -15,15 +14,36 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
   const swipeRef = useRef<SwipeableMethods | null>(null);
   const { memoizedMinutesText } = useTaskCard(task);
   const { avatar, title, subtitle, status } = task;
-  const {
-    bgColor,
-    borderColor,
-    avatarBorder,
-    minsText,
-    doneBtn,
-    iconBgColor,
-    iconTextColor,
-  } = getTaskColor(status);
+
+  //TODO: Tailwind Does not let it build dynamically so keeping it here
+  const TASK_COLOR = {
+    error: {
+      bgColor: "bg-red-50",
+      borderColor: "border-red-400",
+      avatarBorder: "border-red-200",
+      minsText: "text-red-600",
+      doneBtn: "bg-red-500",
+      iconBgColor: "bg-red-100",
+      iconTextColor: "#dc2626",
+    },
+    default: {
+      bgColor: "bg-white/80",
+      borderColor: "border-purple-100",
+      avatarBorder: "border-blue-200",
+      minsText: "text-blue-600",
+      doneBtn: "bg-blue-500",
+      iconBgColor: "bg-blue-100",
+      iconTextColor: "#2563eb",
+    },
+  };
+
+  const getTaskColor = (status: TaskStatus) => {
+    if (status === TaskStatus.Overdue) {
+      return TASK_COLOR.error;
+    }
+
+    return TASK_COLOR.default;
+  };
 
   return (
     <Swipeable
@@ -44,7 +64,7 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
     >
       <Animated.View
         entering={FadeInDown.springify()}
-        className={`${bgColor} rounded-2xl p-4 border-hairline ${borderColor} backdrop-blur-sm overflow-hidden`}
+        className={`${getTaskColor(status).bgColor} rounded-2xl p-4 border-hairline ${getTaskColor(status).borderColor} backdrop-blur-sm overflow-hidden`}
       >
         {status === "overdue" && (
           <View className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500 rounded-tl-2xl rounded-bl-2xl" />
@@ -52,11 +72,13 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
         <View className="flex-row gap-3">
           <Image
             source={avatar}
-            className={`w-12 h-12 rounded-full border-2 ${avatarBorder}`}
+            className={`w-12 h-12 rounded-full border-2 ${getTaskColor(status).avatarBorder}`}
           />
           <View className="flex-1">
             <Text className="font-semibold text-gray-800">{title}</Text>
-            <Text className={`mt-1 text-gray-500 font-semibold ${minsText}`}>
+            <Text
+              className={`mt-1 text-gray-500 font-semibold ${getTaskColor(status).minsText}`}
+            >
               {memoizedMinutesText}
             </Text>
             <Text className="text-xs text-gray-500">{subtitle}</Text>
@@ -68,13 +90,19 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
                 Haptics.selectionAsync();
                 onDone?.();
               }}
-              className={`${doneBtn} px-4 py-2 rounded-xl shadow-sm`}
+              className={`${getTaskColor(status).doneBtn} px-4 py-2 rounded-xl shadow-sm`}
             >
               <Text className="text-white text-sm font-medium">Done</Text>
             </Pressable>
 
-            <View className={`${iconBgColor} mt-2 px-3 py-2 rounded-xl`}>
-              <Ionicons name="time-outline" size={14} color={iconTextColor} />
+            <View
+              className={`${getTaskColor(status).iconBgColor} mt-2 px-3 py-2 rounded-xl`}
+            >
+              <Ionicons
+                name="time-outline"
+                size={14}
+                color={getTaskColor(status).iconTextColor}
+              />
             </View>
           </View>
         </View>

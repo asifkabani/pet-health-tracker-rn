@@ -1,4 +1,4 @@
-import { getValueColor } from "@/util/colors";
+import { ProgressStatus } from "@/types/task";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { memo } from "react";
@@ -11,7 +11,34 @@ type ProgressTileProps = {
 };
 
 const ProgressTileComponent = ({ icon, label, value }: ProgressTileProps) => {
-  const { bgColor, textColor, icon: iconColor } = getValueColor(label);
+  const getValueColor = (label: string) => {
+    let bgColor, textColor, icon;
+
+    switch (label) {
+      case ProgressStatus.Completed:
+        icon = "#16a34a";
+        bgColor = "bg-green-100";
+        textColor = "text-green-600";
+        break;
+      case ProgressStatus.Pending:
+        icon = "#2563eb";
+        bgColor = "bg-blue-100";
+        textColor = "text-blue-600";
+        break;
+      case ProgressStatus.DayStreak:
+        icon = "#ea580c";
+        bgColor = "bg-orange-100";
+        textColor = "text-orange-600";
+        break;
+      default:
+        icon = "gray";
+        bgColor = "gray";
+        textColor = "gray";
+        break;
+    }
+
+    return { bgColor, textColor, icon };
+  };
 
   return (
     <BlurView
@@ -21,11 +48,15 @@ const ProgressTileComponent = ({ icon, label, value }: ProgressTileProps) => {
     >
       <View className="items-center gap-2">
         <View
-          className={`w-14 h-14 ${bgColor} rounded-2xl mx-auto flex items-center justify-center mb-2`}
+          className={`w-14 h-14 ${getValueColor(label).bgColor} rounded-2xl mx-auto flex items-center justify-center mb-2`}
         >
-          <Ionicons name={icon} size={20} color={iconColor} />
+          <Ionicons name={icon} size={20} color={getValueColor(label).icon} />
         </View>
-        <Text className={`text-2xl font-bold ${textColor}`}>{value}</Text>
+        <Text
+          className={`text-2xl font-bold ${getValueColor(label).textColor}`}
+        >
+          {value}
+        </Text>
         <Text className="text-xs text-gray-500">{label}</Text>
       </View>
     </BlurView>
