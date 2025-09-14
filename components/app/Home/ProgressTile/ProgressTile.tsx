@@ -41,11 +41,7 @@ const ProgressTileComponent = ({ icon, label, value }: ProgressTileProps) => {
   };
 
   return (
-    <BlurView
-      intensity={20}
-      tint="light"
-      className="flex-1 bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-purple-100"
-    >
+    <BlurView intensity={20} tint="light" className="flex-1 bg-white/60 p-6">
       <View className="items-center gap-2">
         <View
           className={`w-14 h-14 ${getValueColor(label).bgColor} rounded-2xl mx-auto flex items-center justify-center mb-2`}
