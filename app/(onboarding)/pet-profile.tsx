@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import { useOnboardingStore } from "@/store/onboarding";
 import { makeId, PetKind, usePetsStore } from "@/store/pets";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -20,7 +19,6 @@ const LG = cssInterop(LinearGradient, { className: "style" });
 
 export default function PetProfile() {
   const addPet = usePetsStore((s) => s.addPet);
-  const setSkip = useOnboardingStore((s) => s.setSkipPetOnboarding);
 
   const [name, setName] = useState("");
   const [kind, setKind] = useState<PetKind>("dog");
@@ -40,11 +38,6 @@ export default function PetProfile() {
     });
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.replace("/(onboarding)/first-reminder" as any);
-  };
-
-  const onSkip = () => {
-    setSkip(true);
-    router.replace("/(tabs)");
   };
 
   return (
@@ -142,10 +135,6 @@ export default function PetProfile() {
             Platform.OS === "ios" ? "numbers-and-punctuation" : "numeric"
           }
         />
-
-        <Pressable onPress={onSkip} className="mt-6 items-center">
-          <Text className="text-slate-500 font-extrabold">Skip for now</Text>
-        </Pressable>
 
         <View className="mt-4">
           <Button

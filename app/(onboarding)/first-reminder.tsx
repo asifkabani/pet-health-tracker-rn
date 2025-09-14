@@ -154,12 +154,6 @@ export default function FirstReminder() {
           onPress={saveReminder}
           disabled={!canSave}
         />
-        <Pressable
-          onPress={() => router.replace("/(tabs)")}
-          className="mt-3 items-center"
-        >
-          <Text className="text-slate-500 font-extrabold">Skip for now</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
