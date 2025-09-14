@@ -1,10 +1,10 @@
 import Button from "@/components/ui/Button";
 import { makeId, PetKind, usePetsStore } from "@/store/pets";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { cssInterop } from "nativewind";
 import React, { useState } from "react";
 import {
   Platform,
@@ -14,8 +14,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-
-const LG = cssInterop(LinearGradient, { className: "style" });
 
 export default function PetProfile() {
   const addPet = usePetsStore((s) => s.addPet);
@@ -41,34 +39,36 @@ export default function PetProfile() {
   };
 
   return (
-    <ScrollView
-      className="flex-1 bg-white"
-      contentContainerStyle={{ paddingBottom: 24 }}
-    >
+    <ScrollView className="bg-gray-50 min-h-screen">
       {/* Header */}
       <View className="px-4 pt-4">
-        <Text className="text-2xl font-extrabold text-slate-900">
-          Pet Profile
-        </Text>
+        <Text className="text-lg font-semibold text-gray-900">Pet Profile</Text>
         <View className="mt-3 h-2 rounded-full bg-gray-200">
           <View className="h-2 w-1/2 rounded-full bg-indigo-500" />
         </View>
       </View>
 
       {/* Avatar placeholder */}
-      <LG
-        colors={["#A78BFA", "#60A5FA"]}
-        className="mx-auto mt-6 h-36 w-36 rounded-full items-center justify-center"
+      <LinearGradient
+        colors={["#6B73FF", "#9B59B6"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        className="w-32 h-32 rounded-full flex items-center justify-center mb-4 mt-4 mx-auto border-4 border-dashed border-white border-opacity-50"
       >
-        <Ionicons name="camera-outline" size={28} color="#fff" />
-      </LG>
-      <Text className="text-center text-slate-500 font-semibold mt-2">
-        Tap to add your pet’s photo
+        <FontAwesome5
+          name="camera"
+          size={28}
+          color="#fff"
+          className="text-3xl opacity-60"
+        />
+      </LinearGradient>
+      <Text className="text-center text-sm text-gray-500 mt-4">
+        Tap to add your pet's photo
       </Text>
 
       {/* Form */}
       <View className="px-4 mt-6">
-        <Text className="text-slate-900 font-extrabold mb-2">Pet Name *</Text>
+        <Text className="text-sm font-medium text-gray-700">Pet Name *</Text>
         <TextInput
           className="h-12 rounded-xl border border-indigo-50 bg-white px-3 text-slate-900"
           placeholder="Enter your pet's name"
@@ -77,26 +77,21 @@ export default function PetProfile() {
           onChangeText={setName}
         />
 
-        <Text className="text-slate-900 font-extrabold mt-5 mb-2">
+        <Text className="text-sm font-medium text-gray-700 mt-5 mb-2">
           Pet Type *
         </Text>
         <View className="flex-row gap-3">
           {(["dog", "cat", "other"] as PetKind[]).map((k) => {
             const active = kind === k;
             const label = k === "dog" ? "Dog" : k === "cat" ? "Cat" : "Other";
-            const icon =
-              k === "dog"
-                ? "paw"
-                : k === "cat"
-                  ? "logo-octocat"
-                  : "paw-outline";
+            const icon = k === "dog" ? "dog" : k === "cat" ? "cat" : "paw";
             return (
               <Pressable
                 key={k}
                 onPress={() => setKind(k)}
                 className={`flex-1 h-20 rounded-2xl border items-center justify-center ${active ? "border-indigo-400 bg-indigo-50" : "border-gray-200 bg-white"}`}
               >
-                <Ionicons
+                <FontAwesome5
                   name={icon as any}
                   size={18}
                   color={active ? "#4F46E5" : "#6B7280"}
@@ -111,7 +106,7 @@ export default function PetProfile() {
           })}
         </View>
 
-        <Text className="text-slate-900 font-extrabold mt-5 mb-2">
+        <Text className="text-sm font-medium text-gray-700 mt-5 mb-2">
           Breed (Optional)
         </Text>
         <TextInput
@@ -122,7 +117,7 @@ export default function PetProfile() {
           onChangeText={setBreed}
         />
 
-        <Text className="text-slate-900 font-extrabold mt-5 mb-2">
+        <Text className="text-sm font-medium text-gray-700 mt-5 mb-2">
           Birthday (Optional)
         </Text>
         <TextInput

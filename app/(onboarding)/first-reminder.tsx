@@ -71,16 +71,16 @@ export default function FirstReminder() {
       contentContainerStyle={{ paddingBottom: 24 }}
     >
       <View className="px-4 pt-4">
-        <Text className="text-2xl font-extrabold text-slate-900">
-          Let’s set your first reminder
+        <Text className="text-2xl font-bold text-gray-900">
+          Let's set your first reminder
         </Text>
-        <Text className="text-slate-500 font-semibold mt-2">
+        <Text className="text-gray-600 mt-2">
           Choose a task type to get started.
         </Text>
       </View>
 
       <View className="px-4 mt-5">
-        <Text className="text-slate-900 font-extrabold mb-3">
+        <Text className="text-lg font-semibold text-gray-900 mb-3">
           What would you like to be reminded about?
         </Text>
         {chips.map((c) => {
