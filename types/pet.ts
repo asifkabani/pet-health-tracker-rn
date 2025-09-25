@@ -1,19 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 
-enum Sex {
+export enum Gender {
   Male = "Male",
   Female = "Female",
 }
 
-export type Pet = {
-  id: number;
+export type PetKind = "dog" | "cat" | "other";
+
+export interface Pet {
+  id: string;
   name: string;
-  type: string;
+  birthdate: string;
+  age: number;
+  gender: Gender;
+  type: PetKind;
   breed?: string;
-  birthday?: string;
-  weight?: number;
-  sex?: Sex;
-};
+  weight: number;
+  avatar?: string;
+}
 
 export type PetTask = {
   id: string;

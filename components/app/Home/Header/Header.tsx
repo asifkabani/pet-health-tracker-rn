@@ -1,5 +1,5 @@
-import { Pet } from "@/store";
 import { useAuthStore } from "@/store/auth";
+import { usePetsStore } from "@/store/pets";
 import { toTitleCase } from "@/util/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -7,23 +7,26 @@ import { memo } from "react";
 import { Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
-type HeaderProps = {
-  date: string;
-  timeOfDay: string;
-  userName: string;
-  pets: Pet[];
-};
+const TIME_OF_DAY = "morning";
 
-const HeaderComponent = ({ date, timeOfDay, userName, pets }: HeaderProps) => {
+const HeaderComponent = () => {
   const { user } = useAuthStore();
+  const { pets } = usePetsStore();
+  const { name, avatarUrl } = user || {};
+
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <Animated.View className="px-5 pt-4 pb-2">
-      <Text className="text-sm text-gray-500 font-medium">{date}</Text>
+      <Text className="text-sm text-gray-500 font-medium">{today}</Text>
       <View className="flex-row items-center mt-2">
         <View className="flex-1">
           <Text className="text-xl font-bold text-gray-800">
-            {`Good ${toTitleCase(timeOfDay)}, ${toTitleCase(userName)}!`}
+            {`Good ${toTitleCase(TIME_OF_DAY)}, ${toTitleCase(name!)}!`}
           </Text>
           <Text className="text-sm text-purple-600 font-medium">
             {`${pets[0].name} is counting on you 🐾`}

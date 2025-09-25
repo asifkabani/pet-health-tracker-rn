@@ -11,12 +11,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import PetHistory from "@/components/app/Pets/History/PetHistory";
 import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
-import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfileHeader";
 import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
 import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 
 import EmptyState from "@/components/ui/EmptyState";
-import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
 import { useBadgeStore } from "@/store/badges";
 import { usePetsStore } from "@/store/pets";
 import { PetTask } from "@/types/pet";
@@ -56,8 +54,8 @@ export default function PetScreen() {
   const tabsValues = ["Upcoming", "History", "Records"];
   const pets = usePetsStore((s) => s.pets);
 
-  const { pet } = usePetsPage();
-  const { name, age, gender, weight, breed } = pet;
+  // const { pet } = usePetsPage();
+  // const { name, age, gender, weight, breed } = pet;
 
   // ---- Tab badge for "pets" route: show count of upcoming items
   const setTabBadge = useBadgeStore((s) => s.setTabBadge);
@@ -109,13 +107,13 @@ export default function PetScreen() {
         <View className="flex-1 bg-white">
           <StatusBar barStyle="dark-content" />
           <PetHeader />
-          <ProfileHeader
+          {/* <ProfileHeader
             name={name}
             age={age}
             gender={gender}
             weight={weight}
             breed={breed}
-          />
+          /> */}
 
           <SegmentedTabsControl
             tabsValues={tabsValues}
