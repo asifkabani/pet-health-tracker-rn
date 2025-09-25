@@ -69,7 +69,7 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
         {status === "overdue" && (
           <View className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500 rounded-tl-2xl rounded-bl-2xl" />
         )}
-        <View className="flex-row gap-3">
+        <View className="flex-row gap-3 items-center">
           <Image
             source={avatar}
             className={`w-12 h-12 rounded-full border-2 ${getTaskColor(status).avatarBorder}`}
@@ -94,16 +94,6 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
             >
               <Text className="text-white text-sm font-medium">Done</Text>
             </Pressable>
-
-            <View
-              className={`${getTaskColor(status).iconBgColor} mt-2 px-3 py-2 rounded-xl`}
-            >
-              <Ionicons
-                name="time-outline"
-                size={14}
-                color={getTaskColor(status).iconTextColor}
-              />
-            </View>
           </View>
         </View>
       </Animated.View>

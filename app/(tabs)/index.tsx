@@ -4,12 +4,15 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Header } from "@/components/app/Home/Header/Header";
+import { TaskList } from "@/components/app/Home/TaskList/TaskList";
+import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
 import { INITIAL_TASKS } from "@/constants";
 import { useBadgeStore } from "@/store/badges";
 import { usePetsStore } from "@/store/pets";
 import { Task } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { Progress } from "@/components/app/Home/Progress/Progress";
 
 const TAB_KEYS = ["today", "upcoming", "overdue"] as const;
 type TabKey = (typeof TAB_KEYS)[number];
@@ -59,13 +62,13 @@ export default function HomeScreen() {
             className="flex-1 pb-6"
           >
             <Header />
-            {/* <SegmentedTabsControl
+            <SegmentedTabsControl
               tabsValues={tabsValues}
               selectedIndex={selectedIndex}
               setSelectedIndex={setSelectedIndex}
-            /> */}
-            {/* <TaskList tasks={visibleTasks} selectedIndex={selectedIndex} /> */}
-            {/* <Progress completed="2" pendingCount={pendingTotal} /> */}
+            />
+            <TaskList tasks={visibleTasks} selectedIndex={selectedIndex} />
+            <Progress completed="2" pendingCount={pendingTotal} />
           </LinearGradient>
         </ScrollView>
       </Animated.View>
