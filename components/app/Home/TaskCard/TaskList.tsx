@@ -2,7 +2,7 @@ import { TASK_LIST_CONTENT_CONTAINER_STYLE } from "@/constants";
 import { TaskListProps } from "@/types/task";
 import { memo, useMemo } from "react";
 import { FlatList } from "react-native";
-import { TaskCard } from "../TaskCard/TaskCard";
+import { TaskCard } from "./TaskCard";
 import { TaskListEmpty } from "./TaskListEmpty";
 
 const TaskListComponent = ({ tasks, selectedIndex }: TaskListProps) => {

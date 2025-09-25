@@ -1,16 +1,7 @@
-// stores/auth.ts
+import { AuthUser } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
-export type AuthUser = {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: string;
-  avatarUrl?: string;
-  provider?: "local" | "apple" | "google";
-};
 
 type AuthState = {
   user: AuthUser | null;

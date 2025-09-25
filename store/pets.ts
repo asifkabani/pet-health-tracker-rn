@@ -1,7 +1,7 @@
+import { Pet } from "@/types/pet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { Pet } from "../types/pet";
 
 type PetState = {
   pets: Pet[];

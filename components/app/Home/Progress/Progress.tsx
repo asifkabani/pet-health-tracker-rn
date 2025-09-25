@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { ProgressTile } from "../ProgressTile/ProgressTile";
+import { ProgressTile } from "./ProgressTile";
 
 type ProgressProps = {
   completed: string;

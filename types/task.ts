@@ -4,16 +4,16 @@ export enum TaskStatus {
   Overdue = "overdue",
 }
 
-export type TaskStatusColor = {
-  error: TaskStatus.Overdue;
-  default: TaskStatus.Today | TaskStatus.Upcoming;
-};
-
 export enum ProgressStatus {
   Completed = "Completed",
   Pending = "Pending",
   DayStreak = "Day Streak",
 }
+
+export type TaskStatusColor = {
+  error: TaskStatus.Overdue;
+  default: TaskStatus.Today | TaskStatus.Upcoming;
+};
 
 export type Task = {
   id: string;
@@ -24,6 +24,15 @@ export type Task = {
   dueInMinutes: number; // negative => overdue by |minutes|
   color: string;
   avatar: string;
+};
+
+export type PetTask = {
+  id: string;
+  kind: "Medication" | "Grooming" | "Vet Appointment";
+  detail: string;
+  chip: string;
+  dot: string;
+  tint: string;
 };
 
 export type TaskCardProps = {
