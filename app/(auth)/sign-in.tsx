@@ -19,9 +19,12 @@ import {
 
 import OAuthButton from "@/components/ui/OAuthButton";
 import TextField from "@/components/ui/TextField";
-import { AuthUser, randId, useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/store/auth";
+import { AuthUser } from "@/types/user";
+import { randId } from "@/util/storage";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from "uuid";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -56,7 +59,7 @@ export default function SignIn() {
         });
         const p = await res.json();
         const u: AuthUser = {
-          id: p.id ?? randId(),
+          id: p.id ?? uuidv4(),
           name: p.name ?? "Google User",
           email: (p.email ?? "").toLowerCase(),
           avatarUrl: p.picture ?? undefined,

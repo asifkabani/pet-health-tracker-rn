@@ -2,6 +2,7 @@ export enum TaskStatus {
   Today = "today",
   Upcoming = "upcoming",
   Overdue = "overdue",
+  Done = "done",
 }
 
 export enum ProgressStatus {

@@ -1,12 +1,16 @@
 import Button from "@/components/ui/Button";
+import { useTaskStore } from "@/store/tasks";
+import { TaskStatus } from "@/types/task";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { v4 as uuidv4 } from "uuid";
 
 type ReminderKind = "vet" | "medication" | "vaccine" | "grooming" | "custom";
 
 export default function FirstReminder() {
+  const addTask = useTaskStore((s) => s.addTask);
   const [kind, setKind] = useState<ReminderKind | null>(null);
   const [date, setDate] = useState("01/15/2024");
   const [time, setTime] = useState("09:00 AM");
@@ -16,9 +20,33 @@ export default function FirstReminder() {
 
   const canSave = !!kind;
 
+  // const onContinue = () => {
+  //   const petId = makeId();
+  //   addPet({
+  //     id: petId,
+  //     name: name.trim(),
+  //     kind,
+  //     breed: breed.trim() || undefined,
+  //     birthday: birthday || undefined,
+  //   });
+  //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  //   router.replace("/(onboarding)/first-reminder" as any);
+  // };
+
   const saveReminder = () => {
-    // You can push this into a tasks/reminders store later.
-    router.replace("/(tabs)"); // go to app after onboarding
+    addTask({
+      id: uuidv4(),
+      title: "This is the title",
+      subtitle: "This is the subtitle",
+      avatar:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop",
+      color: "#EF4444",
+      dueInMinutes: 100,
+      pet: "Pet Name",
+      status: TaskStatus.Today,
+    });
+
+    router.replace("/(tabs)");
   };
 
   const chips: {

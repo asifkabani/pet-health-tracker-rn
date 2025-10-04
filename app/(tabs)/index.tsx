@@ -7,10 +7,9 @@ import { Header } from "@/components/app/Home/Header/Header";
 import { Progress } from "@/components/app/Home/Progress/Progress";
 import { TaskList } from "@/components/app/Home/TaskCard/TaskList";
 import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
-import { INITIAL_TASKS } from "@/constants";
 import { useBadgeStore } from "@/store/badges";
 import { usePetsStore } from "@/store/pets";
-import { Task } from "@/types/task";
+import { useTaskStore } from "@/store/tasks";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 
@@ -18,7 +17,7 @@ const TAB_KEYS = ["today", "upcoming", "overdue"] as const;
 type TabKey = (typeof TAB_KEYS)[number];
 
 export default function HomeScreen() {
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const { tasks } = useTaskStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabsValues = ["Today", "Upcoming", "Overdue"];
   const petsCount = usePetsStore((s) => s.pets.length);

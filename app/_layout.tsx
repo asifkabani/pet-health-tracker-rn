@@ -9,6 +9,7 @@ export default function RootLayout() {
   return (
     <View style={{ flex: 1 }}>
       <Slot />
+
       {!navReady && (
         <View style={[StyleSheet.absoluteFill, styles.loader]}>
           <ActivityIndicator />

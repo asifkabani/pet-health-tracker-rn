@@ -12,7 +12,6 @@ const TIME_OF_DAY = "morning";
 const HeaderComponent = () => {
   const { user } = useAuthStore();
   const { pets } = usePetsStore();
-  const { name, avatarUrl } = user || {};
 
   const today = new Date().toLocaleDateString(undefined, {
     weekday: "long",

@@ -1,7 +1,9 @@
 import Button from "@/components/ui/Button";
-import { makeId, PetKind, usePetsStore } from "@/store/pets";
+import { usePetsStore } from "@/store/pets";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { v4 as uuidv4 } from "uuid";
 
+import { PetType } from "@/types/pet";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -19,18 +21,17 @@ export default function PetProfile() {
   const addPet = usePetsStore((s) => s.addPet);
 
   const [name, setName] = useState("");
-  const [kind, setKind] = useState<PetKind>("dog");
+  const [type, setType] = useState<PetType>("dog");
   const [breed, setBreed] = useState("");
-  const [birthday, setBirthday] = useState(""); // keep simple mm/dd/yyyy
+  const [birthday, setBirthday] = useState("");
 
   const canContinue = name.trim().length > 0;
 
   const onContinue = () => {
-    const petId = makeId();
     addPet({
-      id: petId,
+      id: uuidv4(),
       name: name.trim(),
-      kind,
+      type,
       breed: breed.trim() || undefined,
       birthday: birthday || undefined,
     });
@@ -81,14 +82,14 @@ export default function PetProfile() {
           Pet Type *
         </Text>
         <View className="flex-row gap-3">
-          {(["dog", "cat", "other"] as PetKind[]).map((k) => {
-            const active = kind === k;
+          {(["dog", "cat", "other"] as PetType[]).map((k) => {
+            const active = type === k;
             const label = k === "dog" ? "Dog" : k === "cat" ? "Cat" : "Other";
             const icon = k === "dog" ? "dog" : k === "cat" ? "cat" : "paw";
             return (
               <Pressable
                 key={k}
-                onPress={() => setKind(k)}
+                onPress={() => setType(k)}
                 className={`flex-1 h-20 rounded-2xl border items-center justify-center ${active ? "border-indigo-400 bg-indigo-50" : "border-gray-200 bg-white"}`}
               >
                 <FontAwesome5

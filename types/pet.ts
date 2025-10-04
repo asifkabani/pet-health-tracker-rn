@@ -11,12 +11,12 @@ export type PetType = "dog" | "cat" | "other";
 export interface Pet {
   id: string;
   name: string;
-  birthdate: string;
-  age: number;
-  gender: Gender;
+  birthday?: string;
+  age?: number;
+  gender?: Gender;
   type: PetType;
   breed?: string;
-  weight: number;
+  weight?: number;
   avatar?: string;
 }
 
