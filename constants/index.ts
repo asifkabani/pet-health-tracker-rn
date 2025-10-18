@@ -85,3 +85,13 @@ export const INITIAL_TASKS = [
       "https://images.unsplash.com/photo-1541534401786-2077eed87a72?q=80&w=256&auto=format&fit=crop",
   },
 ];
+
+export {
+  AUTH_STORAGE_KEY,
+  EMAIL_REGEX,
+  ONBOARDING_STORAGE_KEY,
+  PASSWORD_MIN_LENGTH,
+  ROOT_ROUTE_NAME,
+  SIGN_IN_GRADIENT,
+  SIGN_IN_PALETTE,
+} from "./auth";

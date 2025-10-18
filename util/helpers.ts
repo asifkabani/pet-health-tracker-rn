@@ -63,3 +63,12 @@ export const toTitleCase = (string: string) => {
 
 export const tintFrom = (hex: string) => hex;
 export const textFrom = (hex: string) => "#1F2937";
+
+export function generateRandomId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+export const normalizeEmail = (email: string) => email.trim().toLowerCase();
+export const trimText = (value: string) => value.trim();
+export const isValidEmail = (email: string) =>
+  /\S+@\S+\.\S+/.test(normalizeEmail(email));
