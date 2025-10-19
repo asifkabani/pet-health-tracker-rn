@@ -1,17 +1,23 @@
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import * as AppleAuthentication from "expo-apple-authentication";
-import * as Google from "expo-auth-session/providers/google";
-import * as Haptics from "expo-haptics";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AUTH_STORAGE_KEY, ONBOARDING_STORAGE_KEY, ROOT_ROUTE_NAME } from "@/constants";
+import {
+  AUTH_STORAGE_KEY,
+  ONBOARDING_STORAGE_KEY,
+  ROOT_ROUTE_NAME,
+} from "@/constants";
 import { AuthUser } from "@/types/auth";
 import { generateRandomId, normalizeEmail, trimText } from "@/util/helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as AppleAuthentication from "expo-apple-authentication";
+import { makeRedirectUri } from "expo-auth-session";
+import * as Google from "expo-auth-session/providers/google";
+import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
+import { useStore } from "@/store";
+import { useEffect, useState } from "react";
 
 export function useAuthFlows() {
-  const nav = useNavigation<any>();
   const [checking, setChecking] = useState(true);
   const [appleAvailable, setAppleAvailable] = useState(false);
+  const setAuthenticated = useStore((s) => s.setAuthenticated);
 
   // Check existing session
   useEffect(() => {
@@ -19,14 +25,15 @@ export function useAuthFlows() {
       try {
         const existing = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
         if (existing) {
-          nav.reset({ index: 0, routes: [{ name: ROOT_ROUTE_NAME }] });
+          try { setAuthenticated(true); } catch {}
+          router.replace(`/${ROOT_ROUTE_NAME}`);
           return;
         }
       } finally {
         setChecking(false);
       }
     })();
-  }, [nav]);
+  }, []);
 
   // Apple availability
   useEffect(() => {
@@ -39,41 +46,52 @@ export function useAuthFlows() {
     };
   }, []);
 
-  // Google
+  // Google (Expo Web)
+  const redirectUri = makeRedirectUri({ native: undefined });
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: "<YOUR_IOS_CLIENT_ID>.apps.googleusercontent.com",
-    androidClientId: "<YOUR_ANDROID_CLIENT_ID>.apps.googleusercontent.com",
-    webClientId: "<YOUR_WEB_CLIENT_ID>.apps.googleusercontent.com",
-    scopes: ["profile", "email"],
+    webClientId:
+      "177124050396-g2i5s93k8vacg6f461ghcab18g6ethd6.apps.googleusercontent.com",
+    scopes: ["profile", "email", "openid"],
+    responseType: "id_token",
+    redirectUri,
   });
 
   useEffect(() => {
     (async () => {
       if (response?.type === "success") {
         try {
-          const accessToken = response.authentication?.accessToken;
-          if (!accessToken) return;
-          const res = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
+          // Debug: inspect response on web
+          console.log("Google redirectUri", redirectUri);
+          console.log("Google response", response);
+        } catch {}
+        try {
+          // Prefer id_token on web implicit flow
+          const idToken = (response as any)?.params?.id_token as
+            | string
+            | undefined;
+          if (!idToken) return;
+          const res = await fetch(
+            `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`
+          );
           const profile = await res.json();
           const user: AuthUser = {
-            id: profile.id ?? generateRandomId(),
-            name: profile.name ?? "Google User",
-            email: normalizeEmail(profile.email ?? ""),
-            avatarUrl: profile.picture ?? undefined,
+            id: (profile?.sub as string) ?? generateRandomId(),
+            name: (profile?.name as string) ?? "Google User",
+            email: normalizeEmail((profile?.email as string) ?? ""),
+            avatarUrl: (profile?.picture as string) ?? undefined,
             createdAt: new Date().toISOString(),
             provider: "google",
           };
           await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+          try { setAuthenticated(true); } catch {}
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          nav.reset({ index: 0, routes: [{ name: ROOT_ROUTE_NAME }] });
+          router.replace(`/${ROOT_ROUTE_NAME}`);
         } catch (e) {
           console.error(e);
         }
       }
     })();
-  }, [response, nav]);
+  }, [response]);
 
   // Apple sign-in
   const signInWithApple = async () => {
@@ -84,7 +102,8 @@ export function useAuthFlows() {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      const fullName = `${credential.fullName?.givenName ?? ""} ${credential.fullName?.familyName ?? ""}`.trim();
+      const fullName =
+        `${credential.fullName?.givenName ?? ""} ${credential.fullName?.familyName ?? ""}`.trim();
       const user: AuthUser = {
         id: credential.user,
         name: fullName || "Apple User",
@@ -93,8 +112,9 @@ export function useAuthFlows() {
         provider: "apple",
       };
       await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+      try { setAuthenticated(true); } catch {}
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      nav.reset({ index: 0, routes: [{ name: ROOT_ROUTE_NAME }] });
+      router.replace(`/${ROOT_ROUTE_NAME}`);
     } catch (e: any) {
       if (e?.code === "ERR_CANCELED") return;
       console.error(e);
@@ -111,9 +131,10 @@ export function useAuthFlows() {
       provider: "local",
     };
     await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+    try { setAuthenticated(true); } catch {}
     await AsyncStorage.setItem(ONBOARDING_STORAGE_KEY, "completed");
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    nav.reset({ index: 0, routes: [{ name: ROOT_ROUTE_NAME }] });
+    router.replace(`/${ROOT_ROUTE_NAME}`);
   };
 
   return {
@@ -126,4 +147,3 @@ export function useAuthFlows() {
     createLocalAccount,
   };
 }
-
