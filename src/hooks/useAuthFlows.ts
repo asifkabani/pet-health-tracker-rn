@@ -3,6 +3,7 @@ import {
   ONBOARDING_STORAGE_KEY,
   ROOT_ROUTE_NAME,
 } from "@/constants";
+import { useStore } from "@/store";
 import { AuthUser } from "@/types/auth";
 import { generateRandomId, normalizeEmail, trimText } from "@/util/helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,7 +12,6 @@ import { makeRedirectUri } from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { useStore } from "@/store";
 import { useEffect, useState } from "react";
 
 export function useAuthFlows() {
@@ -25,7 +25,9 @@ export function useAuthFlows() {
       try {
         const existing = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
         if (existing) {
-          try { setAuthenticated(true); } catch {}
+          try {
+            setAuthenticated(true);
+          } catch {}
           router.replace(`/${ROOT_ROUTE_NAME}`);
           return;
         }
@@ -83,7 +85,9 @@ export function useAuthFlows() {
             provider: "google",
           };
           await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-          try { setAuthenticated(true); } catch {}
+          try {
+            setAuthenticated(true);
+          } catch {}
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           router.replace(`/${ROOT_ROUTE_NAME}`);
         } catch (e) {
@@ -112,7 +116,9 @@ export function useAuthFlows() {
         provider: "apple",
       };
       await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-      try { setAuthenticated(true); } catch {}
+      try {
+        setAuthenticated(true);
+      } catch {}
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.replace(`/${ROOT_ROUTE_NAME}`);
     } catch (e: any) {
@@ -131,7 +137,9 @@ export function useAuthFlows() {
       provider: "local",
     };
     await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-    try { setAuthenticated(true); } catch {}
+    try {
+      setAuthenticated(true);
+    } catch {}
     await AsyncStorage.setItem(ONBOARDING_STORAGE_KEY, "completed");
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.replace(`/${ROOT_ROUTE_NAME}`);

@@ -1,9 +1,5 @@
-import PetHistory from "@/components/app/Pets/History/PetHistory";
-import { PetHeader } from "@/components/app/Pets/PetHeader/PetHeader";
-import { ProfileHeader } from "@/components/app/Pets/PetProfileHeader/PetProfileHeader";
-import { PetTaskCard } from "@/components/app/Pets/PetTaskCard/PetTaskCard";
-import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
-import { usePetsPage } from "@/hooks/usePetsPage/usePetsPage";
+import { SegmentedTabsControl } from "@/components/tabs";
+import { usePetsPage } from "@/hooks/usePetsPage";
 import { PetTask } from "@/types/pet";
 import * as Haptics from "expo-haptics";
 import React, { useState } from "react";
@@ -15,6 +11,10 @@ import Animated, {
   Layout,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { PetHeader } from "./components/PetHeader";
+import PetHistory from "./components/PetHistory";
+import { ProfileHeader } from "./components/PetProfileHeader";
+import { PetTaskCard } from "./components/PetTaskCard";
 
 const initialUpcoming: PetTask[] = [
   {
@@ -43,7 +43,7 @@ const initialUpcoming: PetTask[] = [
   },
 ];
 
-export default function PetScreen() {
+export default function Pet() {
   const [upcoming, setUpcoming] = useState<PetTask[]>(initialUpcoming);
   const [history, setHistory] = useState<PetTask[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);

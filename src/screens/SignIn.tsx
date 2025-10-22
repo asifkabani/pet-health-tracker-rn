@@ -9,7 +9,7 @@ import {
   PrimaryButton,
   TermsCheckbox,
   TextField,
-} from "@/components/ui";
+} from "@/components";
 import { SIGN_IN_PALETTE } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
@@ -25,8 +25,8 @@ import {
 } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuthFlows } from "./hooks/useAuthFlows";
-import { useSignUpForm } from "./hooks/useSignUpForm";
+import { useAuthFlows } from "../hooks/useAuthFlows";
+import { useSignUpForm } from "../hooks/useSignUpForm";
 
 WebBrowser.maybeCompleteAuthSession();
 

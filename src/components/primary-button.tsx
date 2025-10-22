@@ -1,8 +1,8 @@
-import React from "react";
-import { ActivityIndicator, Pressable, Text, StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { SIGN_IN_PALETTE } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 
 type PrimaryButtonProps = {
   title: string;
@@ -21,7 +21,9 @@ export const PrimaryButton = ({
   containerStyle,
   gradientColors,
 }: PrimaryButtonProps) => {
-  const colors = gradientColors ?? [SIGN_IN_PALETTE.purpleA, SIGN_IN_PALETTE.purpleB] as const;
+  const colors =
+    gradientColors ??
+    ([SIGN_IN_PALETTE.purpleA, SIGN_IN_PALETTE.purpleB] as const);
   return (
     <Pressable
       disabled={disabled || loading}
@@ -29,7 +31,9 @@ export const PrimaryButton = ({
       style={({ pressed }) => [
         styles.container,
         (disabled || loading) && { opacity: 0.6 },
-        pressed && !disabled && !loading && { opacity: 0.9, transform: [{ scale: 0.99 }] },
+        pressed &&
+          !disabled &&
+          !loading && { opacity: 0.9, transform: [{ scale: 0.99 }] },
         containerStyle,
       ]}
     >
@@ -54,7 +58,12 @@ export const PrimaryButton = ({
 };
 
 const styles = StyleSheet.create({
-  container: { marginTop: 18, height: 52, borderRadius: 14, overflow: "hidden" },
+  container: {
+    marginTop: 18,
+    height: 52,
+    borderRadius: 14,
+    overflow: "hidden",
+  },
   gradient: {
     flex: 1,
     borderRadius: 14,

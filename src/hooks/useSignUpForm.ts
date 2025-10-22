@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/constants";
 import { SignInFormErrors } from "@/types/auth";
 import { isValidEmail, normalizeEmail, trimText } from "@/util/helpers";
+import { useMemo, useState } from "react";
 
 export function useSignUpForm() {
   const [name, setName] = useState("");
@@ -46,4 +46,3 @@ export function useSignUpForm() {
     valid,
   };
 }
-

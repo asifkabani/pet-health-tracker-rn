@@ -9,11 +9,9 @@ import Swipeable, {
   SwipeableMethods,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { useTaskCard } from "./useTaskCard";
 
 const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
   const swipeRef = useRef<SwipeableMethods | null>(null);
-  const { memoizedMinutesText } = useTaskCard(task);
   const { avatar, title, subtitle, status } = task;
   const {
     bgColor,
@@ -56,9 +54,9 @@ const TaskCardComponent = ({ task, onDone }: TaskCardProps) => {
           />
           <View className="flex-1">
             <Text className="font-semibold text-gray-800">{title}</Text>
-            <Text className={`mt-1 text-gray-500 font-semibold ${minsText}`}>
+            {/* <Text className={`mt-1 text-gray-500 font-semibold ${minsText}`}>
               {memoizedMinutesText}
-            </Text>
+            </Text> */}
             <Text className="text-xs text-gray-500">{subtitle}</Text>
           </View>
 

@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
-import { PrimaryButton } from "@/components/ui";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PrimaryButton } from "@/components";
 import { AUTH_STORAGE_KEY } from "@/constants";
 import { useStore } from "@/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function SettingsScreen() {
   const setAuthenticated = useStore((s) => s.setAuthenticated);

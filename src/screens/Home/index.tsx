@@ -1,10 +1,10 @@
-import { Header } from "@/components/app/Home/Header/Header";
-import { Progress } from "@/components/app/Home/Progress/Progress";
-import { TaskList } from "@/components/app/Home/TaskList/TaskList";
+import { Header } from "./components/Header";
+import { Progress } from "./components/Progress";
+import { TaskList } from "./components/TaskList";
 
-import { SegmentedTabsControl } from "@/components/shared/SegmentedTabs/SegmentedTabs";
+import { SegmentedTabsControl } from "@/components/tabs";
 import { INITIAL_TASKS } from "@/constants";
-import { useHomePage } from "@/hooks/useHomePage/useHomePage";
+import { useHomePage } from "@/hooks/useHomePage";
 import { Task } from "@/types/task";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
