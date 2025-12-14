@@ -1,8 +1,4 @@
-import {
-  AUTH_STORAGE_KEY,
-  ONBOARDING_STORAGE_KEY,
-  ROOT_ROUTE_NAME,
-} from "@/constants";
+import { AUTH_STORAGE_KEY, ROOT_ROUTE_NAME } from "@/constants";
 import { useStore } from "@/store";
 import { AuthUser } from "@/types/auth";
 import { generateRandomId, normalizeEmail, trimText } from "@/util/helpers";
@@ -140,7 +136,7 @@ export function useAuthFlows() {
     try {
       setAuthenticated(true);
     } catch {}
-    await AsyncStorage.setItem(ONBOARDING_STORAGE_KEY, "completed");
+    // await AsyncStorage.setItem(ONBOARDING_STORAGE_KEY, "completed");
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.replace(`/${ROOT_ROUTE_NAME}`);
   };
